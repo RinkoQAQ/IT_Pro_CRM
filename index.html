@@ -4,6 +4,17 @@
 <head>
   <meta charset="utf-8">
   <title>Contacts Form</title>
+
+<!-- Styles -->
+<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+<link href='https://fullcalendar.io/releases/fullcalendar/4.0.2/fullcalendar.min.css' rel='stylesheet' />
+
+
+
+
+
+
+
   <style>
     .toast {
     background-color: #333;
@@ -43,13 +54,11 @@
 
 <body>
   <div class="container">
-
-
     <header>
-      <nav class="nav nav-pills">
-        <a class="nav-item nav-link active" href="#">Contact Form</a>
-        <a class="nav-item nav-link" href="contacts-list.html">Address Book</a>
-      </nav>
+        <nav class="nav nav-pills">
+            <a class="nav-item nav-link active" href="#">Contact Form</a>
+            <a class="nav-item nav-link" href="contacts-list.html">Address Book</a>
+        </nav>
     </header>
 
 
@@ -128,6 +137,59 @@
 
           <button class="btn btn-primary float-right" type="submit">Submit</button>
         </form>
+
+
+<!-- Calendar Section -->
+<div class="row mt-5">
+  <div class="col-md-12">
+      <h3>My Calendar</h3>
+      <div id='calendar'></div>
+  </div>
+</div>
+
+<!-- Event Modal (used for adding/editing events) -->
+<div class="modal" tabindex="-1" id="eventModal">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title">Event Details</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <form id="eventForm">
+                  <div class="form-group">
+                      <label for="eventName">Event Name</label>
+                      <input type="text" class="form-control" id="eventName" required>
+                  </div>
+                  <div class="form-group">
+                      <label for="eventDate">Date</label>
+                      <input type="date" class="form-control" id="eventDate" required>
+                  </div>
+                  <div class="form-group">
+                      <label for="associatedContact">Associate with Contact:</label>
+                      <select class="form-control" id="associatedContact">
+                          <!-- Contacts will be loaded dynamically from localStorage here -->
+                      </select>
+                  </div>
+              </form>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-primary" id="saveEventBtn">Save</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
         <input type="hidden" id="editIndex" value="">
 
         <div id="submission-msg" style="display: none; position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); background-color: #28a745; color: #fff; padding: 10px 20px; border-radius: 5px 5px 0 0;">
@@ -165,6 +227,45 @@
       }, false);
     })();
   </script>
+
+
+
+
+<script>
+  $(document).ready(function() {
+      var calendarEl = document.getElementById('calendar');
+
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+          plugins: ['interaction', 'dayGrid'],
+          dateClick: function(info) {
+              $('#eventDate').val(info.dateStr); // Set clicked date in modal
+              $('#eventModal').modal('show'); // Show modal
+          },
+          // ... you can add other FullCalendar settings here ...
+      });
+
+      calendar.render();
+
+      // Save button functionality for events
+      $('#saveEventBtn').click(function() {
+          var title = $('#eventName').val();
+          var date = $('#eventDate').val();
+          if (title && date) {
+              calendar.addEvent({
+                  title: title,
+                  start: date
+              });
+              $('#eventModal').modal('hide');
+          } else {
+              alert('Please fill all fields.');
+          }
+      });
+  });
+</script>
+
+
+
+
 
 
 </body>

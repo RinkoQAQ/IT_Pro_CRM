@@ -27,6 +27,10 @@ if (editIndex !== null) {
     }
 
     localStorage.removeItem('editContactIndex'); // Clear it after using
+
+
+
+    
 }
 
     }
