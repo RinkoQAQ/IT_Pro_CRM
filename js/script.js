@@ -26,6 +26,10 @@ $('form').submit(function(e) {
 
   localStorage.setItem('itemsArray', JSON.stringify(oldItems));
 
+  // Clear the form fields
+  $(this).trigger('reset');
+
   // Show the toast notification
   $('.toast').toast('show');
 });
+
