@@ -62,6 +62,11 @@
 
 
 
+<!--Photo-->
+<div class="col-md-4">
+  <label for="profilePictureField">Profile Picture</label>
+  <input name="profilePicture" type="file" class="form-control-file" id="profilePictureField" accept="image/*">
+</div>
 
 
             <!-- Existing Name Field -->
@@ -123,6 +128,8 @@
 
           <button class="btn btn-primary float-right" type="submit">Submit</button>
         </form>
+        <input type="hidden" id="editIndex" value="">
+
         <div id="submission-msg" style="display: none; position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); background-color: #28a745; color: #fff; padding: 10px 20px; border-radius: 5px 5px 0 0;">
           Contact added successfully!
       </div>
