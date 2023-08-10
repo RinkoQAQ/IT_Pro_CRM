@@ -4,26 +4,31 @@ $(document).ready(function() {
     var editIndex = localStorage.getItem('editContactIndex');
     if (editIndex !== null) {
         $('#editIndex').val(editIndex); // Set the hidden input value to indicate edit mode
+// Check if in edit mode and populate form with existing data
+var editIndex = localStorage.getItem('editContactIndex');
+if (editIndex !== null) {
+    $('#editIndex').val(editIndex); // Set the hidden input value to indicate edit mode
 
-        // Load the contact data and pre-fill the form
-        var myContacts = JSON.parse(localStorage.getItem('itemsArray'));
-        var contactToEdit = myContacts[editIndex];
+    // Load the contact data and pre-fill the form
+    var myContacts = JSON.parse(localStorage.getItem('itemsArray'));
+    var contactToEdit = myContacts[editIndex];
 
-        $('input[name="name"]').val(contactToEdit.name);
-        $('input[name="email"]').val(contactToEdit.email);
-        $('input[name="phone"]').val(contactToEdit.phone);
-        $('input[name="birthday"]').val(contactToEdit.birthday);
-        $('input[name="company"]').val(contactToEdit.company);
-        $('textarea[name="note"]').val(contactToEdit.note);  // Add this line for the note field
-        // If you have other fields, pre-fill them similarly.
+    $('input[name="name"]').val(contactToEdit.name);
+    $('input[name="email"]').val(contactToEdit.email);
+    $('input[name="phone"]').val(contactToEdit.phone);
+    $('input[name="birthday"]').val(contactToEdit.birthday);
+    $('input[name="company"]').val(contactToEdit.company);
+    $('textarea[name="notes"]').val(contactToEdit.notes);  // Add this line for the notes field
 
-        // For the profile picture:
-        if (contactToEdit.profilePicture) {
-            // Assuming you might want to show the existing image somewhere on the form:
-            $('#previewImage').attr('src', contactToEdit.profilePicture);
-        }
+    // For the profile picture:
+    if (contactToEdit.profilePicture) {
+        // Assuming you might want to show the existing image somewhere on the form:
+        $('#previewImage').attr('src', contactToEdit.profilePicture);
+    }
 
-        localStorage.removeItem('editContactIndex'); // Clear it after using
+    localStorage.removeItem('editContactIndex'); // Clear it after using
+}
+
     }
 
     // Form submission logic
