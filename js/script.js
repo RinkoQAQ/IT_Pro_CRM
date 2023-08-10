@@ -1,10 +1,32 @@
 $(document).ready(function() {
-    var editIndex = localStorage.getItem('editContactIndex');  // Get the index from local storage
-if (editIndex !== null) {  // If there's an index in local storage, it means we're editing a contact
-    $('#editIndex').val(editIndex);  // Set the hidden input field's value to this index
-    localStorage.removeItem('editContactIndex');  // Clear the index from local storage so it's not mistakenly used later
-}
 
+    // Check if in edit mode and populate form with existing data
+    var editIndex = localStorage.getItem('editContactIndex');
+    if (editIndex !== null) {
+        $('#editIndex').val(editIndex); // Set the hidden input value to indicate edit mode
+
+        // Load the contact data and pre-fill the form
+        var myContacts = JSON.parse(localStorage.getItem('itemsArray'));
+        var contactToEdit = myContacts[editIndex];
+
+        $('input[name="name"]').val(contactToEdit.name);
+        $('input[name="email"]').val(contactToEdit.email);
+        $('input[name="phone"]').val(contactToEdit.phone);
+        $('input[name="birthday"]').val(contactToEdit.birthday);
+        $('input[name="company"]').val(contactToEdit.company);
+        $('textarea[name="note"]').val(contactToEdit.note);  // Add this line for the note field
+        // If you have other fields, pre-fill them similarly.
+
+        // For the profile picture:
+        if (contactToEdit.profilePicture) {
+            // Assuming you might want to show the existing image somewhere on the form:
+            $('#previewImage').attr('src', contactToEdit.profilePicture);
+        }
+
+        localStorage.removeItem('editContactIndex'); // Clear it after using
+    }
+
+    // Form submission logic
     $('form').submit(function(e) {
         e.preventDefault();
 
@@ -14,61 +36,39 @@ if (editIndex !== null) {  // If there's an index in local storage, it means we'
         }
 
         var data = $(this).serializeFormJSON();
+
         var profilePictureFile = $('#profilePictureField')[0].files[0];
-        if (profilePictureFile) {
+        if(profilePictureFile){
             var reader = new FileReader();
             reader.readAsDataURL(profilePictureFile);
-            reader.onload = function() {
+            reader.onload = function () {
                 data.profilePicture = reader.result; // Base64 encoded image string
-                saveContact(data);
+
+                processFormSubmission(data);
             };
         } else {
-            data.profilePicture = null;
-            saveContact(data);
+            data.profilePicture = contactToEdit ? contactToEdit.profilePicture : null;  // Use the existing image if in edit mode.
+            
+            processFormSubmission(data);
         }
     });
 
-    // Check if the form is in edit mode and load data if necessary
-    var editIndex = $('#editIndex').val();
-    if (editIndex !== undefined && editIndex !== null && editIndex !== '') {
-        var contacts = JSON.parse(localStorage.getItem('itemsArray'));
-        loadContactForEdit(contacts[editIndex]);
+    function processFormSubmission(data) {
+        var oldItems = JSON.parse(localStorage.getItem('itemsArray')) || [];
+        
+        if (editIndex !== null) { 
+            oldItems[editIndex] = data;  // Update the existing contact
+        } else {
+            oldItems.push(data);  // Add a new contact
+        }
+        
+        localStorage.setItem('itemsArray', JSON.stringify(oldItems));
+
+        $('#submission-msg').fadeIn().delay(3000).fadeOut(function() {
+            window.location.href = "contacts-list.html";
+        });
     }
 });
-
-function saveContact(contact) {
-    var oldItems = JSON.parse(localStorage.getItem('itemsArray')) || [];
-    var editIndex = $('#editIndex').val();
-
-    if (editIndex !== undefined && editIndex !== null && editIndex !== '') {
-        oldItems[editIndex] = contact; // Update existing contact
-    } else {
-        oldItems.push(contact); // Add new contact
-    }
-    
-    localStorage.setItem('itemsArray', JSON.stringify(oldItems));
-
-    $('#submission-msg').fadeIn().delay(3000).fadeOut(function() {
-        window.location.href = "contacts-list.html";
-    });
-}
-
-function loadContactForEdit(contact) {
-    $('#name').val(contact.name);
-    $('#phone').val(contact.phone);
-    $('#email').val(contact.email);
-    $('#group').val(contact.group);
-    $('#notes').val(contact.notes);
-    $('#birthday').val(contact.birthday);
-    $('#company').val(contact.company);
-
-    // Optionally, set the photo if it exists
-    if (contact.profilePicture) {
-        $('#profilePicturePreview').attr('src', contact.profilePicture);
-    }
-    // Change the submit button to "Update" or something to indicate it's in edit mode
-    $('form button[type="submit"]').text('Update');
-}
 
 (function($) {
     $.fn.serializeFormJSON = function() {
