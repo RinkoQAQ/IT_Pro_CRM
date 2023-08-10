@@ -1,0 +1,15 @@
+{
+  "name": "address-book",
+  "version": "1.0.0",
+  "description": "Evaluation task required by youxel",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mai Ibraheem",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^4.1.1",
+    "jquery": "^3.3.1"
+  }
+}
