@@ -1,5 +1,5 @@
 var addressBook = (function() {
-  var myContacts = JSON.parse(localStorage.getItem('itemsArray'));
+var myContacts = JSON.parse(localStorage.getItem('itemsArray')) || [];
   var table = $('#table1');
   var tbody = table.find('tbody');
 
@@ -8,12 +8,12 @@ var addressBook = (function() {
   _render();
 
   function _render() {
-      tbody.html('');
-      var length = myContacts.length;
-      for (var i = length - 1; i >= 0; i--) {
-          table.prepend('<tr><td>' + i + '</td><td>' + myContacts[i].name + '</td><td>' + myContacts[i].nickname + '</td><td>' + myContacts[i].phone + '</td><td>' + myContacts[i].email + '</td><td>' + myContacts[i].gender + '</td><td><button id="edit" class="btn btn-info">Edit</button><button id="remove" class="btn btn-danger">X</button></td></tr>');
-      }
-  }
+    tbody.html('');
+    var length = myContacts.length;
+    for (var i = length - 1; i >= 0; i--) {
+        table.prepend('<tr><td>' + (i + 1) + '</td><td>' + myContacts[i].name + '</td><td>' + myContacts[i].email + '</td><td>' + myContacts[i].phone + '</td><td>' + myContacts[i].birthday + '</td><td>' + myContacts[i].company + '</td><td>' + myContacts[i].group + '</td><td>' + myContacts[i].notes + '</td><td><button id="edit" class="btn btn-info">Edit</button></td><td><button id="remove" class="btn btn-danger">Delete</button></td></tr>');
+    }
+}
 
   function deletePerson(event) {
       var i = $('#table1 tr').index($(this).closest('tr')) - 1;
