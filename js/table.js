@@ -3,30 +3,17 @@ var addressBook = (function() {
   var table = $('#table1');
   var tbody = table.find('tbody');
 
-  // Bind events
-table.on('click', '#remove', deletePerson);
-table.on('click', '#edit', editPerson);
+  table.on('click', '#remove', deletePerson);
+  table.on('click', '#edit', editPerson);
+  _render();
 
-  //render
   function _render() {
       tbody.html('');
       var length = myContacts.length;
       for (var i = length - 1; i >= 0; i--) {
-        table.prepend('<tr><td>' + i + '</td><td>' + myContacts[i].name + '</td><td>' + myContacts[i].nickname + '</td><td>' + myContacts[i].phone + '</td><td>' + myContacts[i].email + '</td><td>' + myContacts[i].gender + '</td><td><button id="remove" class="btn btn-danger">X</button></td><td><button id="edit" class="btn btn-warning">Edit</button></td></tr>');
+          table.prepend('<tr><td>' + i + '</td><td>' + myContacts[i].name + '</td><td>' + myContacts[i].nickname + '</td><td>' + myContacts[i].phone + '</td><td>' + myContacts[i].email + '</td><td>' + myContacts[i].gender + '</td><td><button id="edit" class="btn btn-info">Edit</button><button id="remove" class="btn btn-danger">X</button></td></tr>');
       }
   }
-
-
-  function editPerson(event) {
-    var i = $('#table1 tr').index($(this).closest('tr')) - 1;
-    var editContact = myContacts[i];
-
-    // Storing the index of the item to edit in the localStorage
-    localStorage.setItem('editIndex', i);
-
-    // Redirect to the index.html to edit the entry
-    window.location.href = "index.html";
-}
 
   function deletePerson(event) {
       var i = $('#table1 tr').index($(this).closest('tr')) - 1;
@@ -36,7 +23,13 @@ table.on('click', '#edit', editPerson);
       localStorage.setItem('itemsArray', JSON.stringify(myContacts));
   }
 
-  //search function
+  function editPerson(event) {
+      var i = $('#table1 tr').index($(this).closest('tr')) - 1;
+      var editedContact = myContacts[i];
+      // Here you can integrate your logic to edit the contact.
+      // e.g., redirect to the contact form pre-filled with 'editedContact' data
+  }
+
   $("#search").on("keyup", function() {
       var value = $(this).val().toLowerCase();
       $("table tr").filter(function(index) {
@@ -45,9 +38,7 @@ table.on('click', '#edit', editPerson);
           }
       });
   });
-
   return {
       deletePerson: deletePerson
   };
-
 })();
