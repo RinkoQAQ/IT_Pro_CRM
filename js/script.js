@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+    
     // Check if in edit mode and populate form with existing data
     var editIndex = localStorage.getItem('editContactIndex');
     if (editIndex !== null) {
