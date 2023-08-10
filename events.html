@@ -2,27 +2,64 @@
 <html lang="en" dir="ltr">
 
 <head>
-  <meta charset="utf-8">
-  <title>My Events</title>
-
-
-  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <meta charset="utf-8">
+    <title>My Events</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link href='https://fullcalendar.io/releases/fullcalendar/4.0.2/fullcalendar.min.css' rel='stylesheet' />
 </head>
 
 <body>
-  <div class="container">
-    <header>
-        <nav class="nav nav-pills">
-            <a class="nav-item nav-link active" href="index.html">Contact Form</a>
-            <a class="nav-item nav-link" href="contacts-list.html">Connections</a>
-            <a class="nav-item nav-link btn btn-outline-primary ml-3" href="#" id="myEventsBtn">My Events</a>
-        </nav>
-    </header>
+    <div class="container">
+        <header>
+            <nav class="nav nav-pills">
+                <a class="nav-item nav-link" href="index.html">Contact Form</a>
+                <a class="nav-item nav-link" href="contacts-list.html">Connections</a>
+                <a class="nav-item nav-link active" href="#" id="myEventsBtn">My Events</a>
+            </nav>
+        </header>
+        
+        <!-- FullCalendar Display -->
+        <div id="calendar" class="mt-4"></div>
 
+        <!-- Modal for Adding/Editing Events -->
+        <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="eventModalLabel">Event Details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="eventName">Event Name:</label>
+                            <input type="text" id="eventName" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="eventContact">Associated Contact:</label>
+                            <select id="eventContact" class="form-control">
+                                <!-- Filled dynamically with contacts -->
+                            </select>
+                        </div>
+                        <input type="hidden" id="eventStart">
+                        <input type="hidden" id="eventEnd">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" id="deleteEventBtn">Delete</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="saveEventBtn">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-
-
-
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src='https://fullcalendar.io/releases/fullcalendar/4.0.2/fullcalendar.min.js'></script>
+    <script src="js/events.js"></script>
 </body>
 
 </html>
