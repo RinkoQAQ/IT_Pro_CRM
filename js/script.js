@@ -25,5 +25,7 @@ $('form').submit(function(e) {
   oldItems.push(data);
 
   localStorage.setItem('itemsArray', JSON.stringify(oldItems));
-  var myContacts = JSON.parse(localStorage.getItem('itemsArray'));
+
+  // Show the toast notification
+  $('.toast').toast('show');
 });
