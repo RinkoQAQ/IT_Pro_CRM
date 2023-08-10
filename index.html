@@ -123,17 +123,10 @@
 
           <button class="btn btn-primary float-right" type="submit">Submit</button>
         </form>
-        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000" style="position: absolute; top: 10%; right: 10%;">
-          <div class="toast-header">
-            <strong class="mr-auto">Address Book</strong>
-            <small>Just now</small>
-            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="toast-body">
-            Contact added successfully!
-          </div>
+        <div id="submission-msg" style="display: none; position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); background-color: #28a745; color: #fff; padding: 10px 20px; border-radius: 5px 5px 0 0;">
+          Contact added successfully!
+      </div>
+      
         </div>
       </div>
       <!-- /.col-lg-12 -->

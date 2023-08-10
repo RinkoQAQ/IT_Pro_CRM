@@ -3,18 +3,30 @@ var addressBook = (function() {
   var table = $('#table1');
   var tbody = table.find('tbody');
 
-  //bind events
-  table.on('click', '#remove', deletePerson);
-  _render();
+  // Bind events
+table.on('click', '#remove', deletePerson);
+table.on('click', '#edit', editPerson);
 
   //render
   function _render() {
       tbody.html('');
       var length = myContacts.length;
       for (var i = length - 1; i >= 0; i--) {
-          table.prepend('<tr><td>' + i + '</td><td>' + myContacts[i].name + '</td><td>' + myContacts[i].email + '</td><td>' + myContacts[i].phone + '</td><td>' + myContacts[i].birthday + '</td><td>' + myContacts[i].company + '</td><td>' + myContacts[i].group + '</td><td>' + myContacts[i].notes + '</td><td><button id="remove" class="btn btn-danger">X</button></td></tr>');
+        table.prepend('<tr><td>' + i + '</td><td>' + myContacts[i].name + '</td><td>' + myContacts[i].nickname + '</td><td>' + myContacts[i].phone + '</td><td>' + myContacts[i].email + '</td><td>' + myContacts[i].gender + '</td><td><button id="remove" class="btn btn-danger">X</button></td><td><button id="edit" class="btn btn-warning">Edit</button></td></tr>');
       }
   }
+
+
+  function editPerson(event) {
+    var i = $('#table1 tr').index($(this).closest('tr')) - 1;
+    var editContact = myContacts[i];
+
+    // Storing the index of the item to edit in the localStorage
+    localStorage.setItem('editIndex', i);
+
+    // Redirect to the index.html to edit the entry
+    window.location.href = "index.html";
+}
 
   function deletePerson(event) {
       var i = $('#table1 tr').index($(this).closest('tr')) - 1;
