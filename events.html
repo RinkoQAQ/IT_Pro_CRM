@@ -36,7 +36,34 @@
         </header>
         
         <div class="mt-4">
-            <table id="calendar">
+            <label for="yearSelector">Select Year:</label>
+            <select id="yearSelector">
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+            </select>
+            
+            <label for="monthSelector">Select Month:</label>
+            <select id="monthSelector">
+                <option value="0">January</option>
+                <option value="1">February</option>
+                <option value="2">March</option>
+                <option value="3">April</option>
+                <option value="4">May</option>
+                <option value="5">June</option>
+                <option value="6">July</option>
+                <option value="7">August</option>
+                <option value="8">September</option>
+                <option value="9">October</option>
+                <option value="10">November</option>
+                <option value="11">December</option>
+            </select>
+            
+            <button onclick="generateCalendar()">Show Calendar</button>
+
+            <table id="calendar" class="mt-4">
                 <thead>
                     <tr>
                         <th>Sunday</th>
@@ -57,16 +84,15 @@
 
     <script>
         function daysInMonth(month, year) {
-            return new Date(year, month, 0).getDate();
+            return new Date(year, month + 1, 0).getDate();
         }
 
         function generateCalendar() {
-            const today = new Date();
-            const currentMonth = today.getMonth();
-            const currentYear = today.getFullYear();
+            const selectedYear = parseInt(document.getElementById("yearSelector").value);
+            const selectedMonth = parseInt(document.getElementById("monthSelector").value);
 
-            let firstDay = (new Date(currentYear, currentMonth)).getDay();
-            const daysOfMonth = daysInMonth(currentMonth + 1, currentYear);
+            let firstDay = (new Date(selectedYear, selectedMonth)).getDay();
+            const daysOfMonth = daysInMonth(selectedMonth, selectedYear);
 
             let date = 1;
             const tbody = document.querySelector("#calendar tbody");
@@ -88,9 +114,6 @@
                     } else {
                         const cell = document.createElement("td");
                         const cellText = document.createTextNode(date);
-                        if (date === today.getDate() && currentYear === today.getFullYear() && currentMonth === today.getMonth()) {
-                            cell.classList.add("bg-primary", "text-white"); // Highlight today's date
-                        }
                         cell.appendChild(cellText);
                         row.appendChild(cell);
                         date++;
@@ -101,7 +124,7 @@
             }
         }
 
-        // Call the function to generate the current month's calendar
+        // Call the function initially to display the calendar for the current month and year.
         generateCalendar();
     </script>
 </body>
