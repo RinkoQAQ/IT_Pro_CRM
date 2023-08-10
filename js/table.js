@@ -24,11 +24,12 @@ var myContacts = JSON.parse(localStorage.getItem('itemsArray')) || [];
   }
 
   function editPerson(event) {
-      var i = $('#table1 tr').index($(this).closest('tr')) - 1;
-      var editedContact = myContacts[i];
-      // Here you can integrate your logic to edit the contact.
-      // e.g., redirect to the contact form pre-filled with 'editedContact' data
-  }
+    var i = $('#table1 tr').index($(this).closest('tr')) - 1;
+    var editedContact = myContacts[i];
+    localStorage.setItem('editedContactIndex', i); // Save the index of the contact being edited
+    window.location.href = "index.html?edit=true"; // Redirect to form page with edit flag
+}
+
 
   $("#search").on("keyup", function() {
       var value = $(this).val().toLowerCase();
