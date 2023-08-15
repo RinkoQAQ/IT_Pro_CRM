@@ -35,11 +35,11 @@ var addressBook = (function() {
     }
 
     function editPerson(event) {
-        var i = $('#table1 tr').index($(this).closest('tr')) - 1;  // Find out which row was clicked
-        localStorage.setItem('editContactIndex', i);  // Store that row number in local storage
-        window.location.href = "index.html";  // Redirect to the contact form page
-    }
-    
+    var i = $('#table1 tr').index($(this).closest('tr')) - 1;  // Find out which row was clicked
+    localStorage.setItem('editContactIndex', i);  // Store that row number in local storage
+    window.location.href = "index.html";  // Redirect to the contact form page
+}
+
     
 
     $("#search").on("keyup", function() {

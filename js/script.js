@@ -20,6 +20,11 @@ if (editIndex !== null) {
     $('input[name="birthday"]').val(contactToEdit.birthday);
     $('input[name="company"]').val(contactToEdit.company);
     $('textarea[name="notes"]').val(contactToEdit.notes);  // Add this line for the notes field
+ 
+
+
+
+
 
     // For the profile picture:
     if (contactToEdit.profilePicture) {
@@ -36,7 +41,6 @@ if (editIndex !== null) {
 
     }
 
-    // Form submission logic
     $('form').submit(function(e) {
         e.preventDefault();
 
@@ -48,17 +52,15 @@ if (editIndex !== null) {
         var data = $(this).serializeFormJSON();
 
         var profilePictureFile = $('#profilePictureField')[0].files[0];
-        if(profilePictureFile){
+        if(profilePictureFile) {
             var reader = new FileReader();
             reader.readAsDataURL(profilePictureFile);
             reader.onload = function () {
-                data.profilePicture = reader.result; // Base64 encoded image string
-
+                data.profilePicture = reader.result;
                 processFormSubmission(data);
             };
         } else {
-            data.profilePicture = contactToEdit ? contactToEdit.profilePicture : null;  // Use the existing image if in edit mode.
-            
+            data.profilePicture = contactToEdit ? contactToEdit.profilePicture : null;  
             processFormSubmission(data);
         }
     });
@@ -67,9 +69,9 @@ if (editIndex !== null) {
         var oldItems = JSON.parse(localStorage.getItem('itemsArray')) || [];
         
         if (editIndex !== null) { 
-            oldItems[editIndex] = data;  // Update the existing contact
+            oldItems[editIndex] = data;
         } else {
-            oldItems.push(data);  // Add a new contact
+            oldItems.push(data);
         }
         
         localStorage.setItem('itemsArray', JSON.stringify(oldItems));

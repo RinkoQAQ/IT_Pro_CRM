@@ -6,7 +6,7 @@
   <title>Contacts Form</title>
 
 
-  <style>
+ <!-- <style>
     .toast {
     background-color: #333;
     color: #fff;
@@ -38,9 +38,11 @@
     padding: 15px;
 }
 
-  </style>
+  </style>-->
 
   <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+
+  <!--<link rel="stylesheet" href="CSS/index.css">-->
 </head>
 
 <body>
@@ -128,30 +130,32 @@
 
 
 <div class="col-md-4">
-  <label for="eventdate1">Event #1 Date</label>
-  <input name="eventdate1" type="date" class="form-control" id="eventdate1" >
+  <label for="eventDate1">Event #1 Date</label>
+  <input name="eventDate1" type="date" class="form-control" id="eventDate1" >
   <div class="invalid-feedback">
       Please provide a date.
   </div>
 </div>
 
 <div class="col-md-12 mt-3">
-  <label for="ev1">Event #1 Detail</label>
-  <textarea name="ev1" id="ev1" class="form-control" rows="3"></textarea>
+  <label for="notesField">Event #1 Detail</label>
+  <textarea name="eventDetail1" id="eventDetail1" class="form-control" rows="3"></textarea>
 </div>
 
 <div class="col-md-4">
-  <label for="eventdate2">Event #2 Date</label>
-  <input name="eventdate2" type="date" class="form-control" id="eventdate2" >
+  <label for="eventDate2">Event #2 Date</label>
+  <input name="eventDate2" type="date" class="form-control" id="eventDate2" >
   <div class="invalid-feedback">
       Please provide a date.
   </div>
 </div>
 
 <div class="col-md-12 mt-3">
-  <label for="ev2">Event #2 Detail</label>
-  <textarea name="ev2" id="ev2" class="form-control" rows="3"></textarea>
+  <label for="notesField">Event #2 Detail</label>
+  <textarea name="eventDetail2" id="eventDetail2" class="form-control" rows="3"></textarea>
 </div>
+
+
 
           <button class="btn btn-primary float-right" type="submit">Submit</button>
         </form>
