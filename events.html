@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Connections</title>
+  <link rel="stylesheet" href="CSS/photo.css">
+
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <nav class="nav nav-pills">
+        <a class="nav-item nav-link" href="index.html">Contact Form</a>
+            <a class="nav-item nav-link" href="contacts-list.html">Connections</a>
+            <a class="nav-item nav-link active" href="#" id="myEventsBtn">My Events</a>
+      </nav>
+
+    </header>
+    <br/>
+    <div class="row">
+      <div class="col-md-4">
+
+        <input class="form-control" type="text" id="search" placeholder="Search data here.....">
+      </div>
+
+    </div>
+    <br/>
+    <table id="table1" class="table">
+      <thead>
+        <tr>
+            <th>ID</th>
+            <th>Profile Picture</th>
+            <th>Name</th>
+            <th>Event #1 Date</th>
+            <th>Event #1 Detail</th>
+            <th>Event #2 Date</th>
+            <th>Event #2 Detail</th>
+            <th>Actions</th>
+          
+            
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+    <tfoot>
+    </tfoot>
+
+  </div>
+
+  <script type="text/javascript" src="../node_modules/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+
+  <script>
+$(document).ready(function() {
+
+    
+// Check if in edit mode and populate form with existing data
+var editIndex = localStorage.getItem('editContactIndex');
+if (editIndex !== null) {
+    $('#editIndex').val(editIndex); // Set the hidden input value to indicate edit mode
+// Check if in edit mode and populate form with existing data
+var editIndex = localStorage.getItem('editContactIndex');
+if (editIndex !== null) {
+$('#editIndex').val(editIndex); // Set the hidden input value to indicate edit mode
+
+// Load the contact data and pre-fill the form
+var myContacts = JSON.parse(localStorage.getItem('itemsArray'));
+var contactToEdit = myContacts[editIndex];
+
+// New fields:
+$('input[name="name"]').val(contactToEdit.name);
+$('input[name="eventDate1"]').val(contactToEdit.eventDate1);
+$('input[name="eventDate2"]').val(contactToEdit.eventDate2);
+$('textarea[name="eventDetail1"]').val(contactToEdit.eventDetail1);
+$('textarea[name="eventDetail2"]').val(contactToEdit.eventDetail2);
+
+
+
+
+
+// For the profile picture:
+if (contactToEdit.profilePicture) {
+    // Assuming you might want to show the existing image somewhere on the form:
+    $('#previewImage').attr('src', contactToEdit.profilePicture);
+}
+
+localStorage.removeItem('editContactIndex'); // Clear it after using
+
+
+
+
+}
+
+}
+
+$('form').submit(function(e) {
+    e.preventDefault();
+
+    if (!this.checkValidity()) {
+        alert("Input is invalid. Please correct and submit again.");
+        return;
+    }
+
+    var data = $(this).serializeFormJSON();
+
+    var profilePictureFile = $('#profilePictureField')[0].files[0];
+    if(profilePictureFile) {
+        var reader = new FileReader();
+        reader.readAsDataURL(profilePictureFile);
+        reader.onload = function () {
+            data.profilePicture = reader.result;
+            processFormSubmission(data);
+        };
+    } else {
+        data.profilePicture = contactToEdit ? contactToEdit.profilePicture : null;  
+        processFormSubmission(data);
+    }
+});
+
+function processFormSubmission(data) {
+    var oldItems = JSON.parse(localStorage.getItem('itemsArray')) || [];
+    
+    if (editIndex !== null) { 
+        oldItems[editIndex] = data;
+    } else {
+        oldItems.push(data);
+    }
+    
+    localStorage.setItem('itemsArray', JSON.stringify(oldItems));
+
+    $('#submission-msg').fadeIn().delay(3000).fadeOut(function() {
+        window.location.href = "contacts-list.html";
+    });
+}
+});
+
+(function($) {
+$.fn.serializeFormJSON = function() {
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        if (o[this.name]) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
+})(jQuery);
+
+
+  </script> 
+
+
+</body>
+
+</html>
