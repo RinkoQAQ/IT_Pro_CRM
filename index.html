@@ -1,193 +1,99 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <title>Contacts Form</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
+        .login-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
 
+        .login-container h1 {
+            color: rgb(0, 123, 255);
+            font-weight: bold;
+        }
 
+        .login-container p {
+            margin: 20px 0;
+        }
 
- <!--  <link rel="stylesheet" href="CSS/basics.css">-->
- <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+        .login-input {
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
 
-  <!-- <link rel="stylesheet" href="CSS/index.css"> -->
-
-
-
-
+        .login-button {
+            padding: 10px 20px;
+            background-color: rgb(0, 123, 255);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
-  <div class="container">
-    <header>
-        <nav class="nav nav-pills">
-            <a class="nav-item nav-link active" href="#">Contact Form</a>
-            <a class="nav-item nav-link" href="contacts-list.html">Connections</a>
-            <a class="nav-item nav-link" href="events.html" id="myEventsBtn">My Events</a>
-        </nav>
-    
-      </header>
 
-    <div class="row">
-      <div class="col-md-12 col-md-offset-12">
-        <br/>
-        <p>Please fill the form</p>
-        <form class="needs-validation" action="#" method="post" novalidate>
-          <div class="form-row">
-
-
-
-<!--Photo-->
-<div class="col-md-4">
-  <label for="profilePictureField">Profile Picture</label>
-  <input name="profilePicture" type="file" class="form-control-file" id="profilePictureField" accept="image/*">
-</div>
-
-
-            <!-- Existing Name Field -->
-<div class="col-md-4">
-    <label for="nameField">Name</label>
-    <input name="name" type="text" class="form-control" id="nameField" placeholder="Full name" required>
-    <div class="invalid-feedback">
-        Please enter your full name.
+    <div class="login-container">
+        <h1>Welcome to Your Personal CRM</h1>
+        <p>Categorize and Manage, Add and Schedule of contacts easy-to-use, integrated, efficient management relationships</p>
+        <input class="login-input" type="email" id="email" placeholder="Enter Email">
+        <input class="login-input" type="password" id="password" placeholder="Enter Password">
+        <button class="login-button" onclick="checkLogin()">Login</button>
     </div>
-</div>
 
-<!-- Added Email Field -->
-<div class="col-md-4">
-    <label for="emailField">Email</label>
-    <input name="email" type="email" class="form-control" id="emailField" placeholder="Email" required>
-    <div class="invalid-feedback">
-        Please provide a valid email.
-    </div>
-</div>
+    <script>
+        function checkLogin() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
 
-<!-- Existing Phone Field and Birthday Field -->
-<div class="col-md-4">
-    <label for="phoneField">Phone number</label>
-    <input name="phone" type="text" class="form-control" id="phoneField" placeholder="Phone number" required>
-    <div class="invalid-feedback">
-        Please provide a valid Phone number.
-    </div>
-</div>
-
-<div class="col-md-4">
-    <label for="birthdayField">Birthday</label>
-    <input name="birthday" type="date" class="form-control" id="birthdayField" required>
-    <div class="invalid-feedback">
-        Please provide a birthday.
-    </div>
-</div>
-
-<div class="col-md-4">
-    <label for="companyField">Company</label>
-    <input name="company" type="text" class="form-control" id="companyField" placeholder="Company">
-</div>
-
-<div class="col-md-4">
-    <label for="groupField">Group</label>
-    <select name="group" id="groupField" class="form-control">
-        <!-- Add your groups here -->
-        <option value="Family">Family</option>
-        <option value="Friends">Friends</option>
-        <option value="Work">Work</option>
-        <!-- ... and so on -->
-    </select>
-</div>
-
-<div class="col-md-12 mt-3">
-    <label for="notesField">Additional Notes</label>
-    <textarea name="notes" id="notesField" class="form-control" rows="3"></textarea>
-</div>
+            /*
+            
+┼┼▓▓▓▓▓▓▓▓
+┼┼┼▓░░▓░░▓┼┼┼▒
+┼┼┼▓░░▓░░▓┼┼┼▒
+┼┼┼▓░░▓░░▓▓┼┼▒
+┼┼┼▓░░▓░░░▓┼┼▒
+┼┼┼▓░░▓░░░▓┼┼▒      Alan在代码里开车车咯~
+┼┼▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓   大家上车嘛~~~
+┼▓▓███▓▓▒▒▓████▓▓   : )
+┼┼█████▓▓▒▓▓▓▓▓▓▓▓
+┼███▒███▓▒▓▓▓▓▓▓▓▓
+┼██▒▒▒██▓▓▓▓▓▓██▓▓
+┼███▒███┼┼┼┼┼█▒▒█
+┼┼█████┼┼┼┼┼┼█▒▒█
+┼┼┼███┼┼┼┼┼┼┼┼██ 
 
 
-<div class="col-md-4">
-  <label for="eventDate1">Event #1 Date</label>
-  <input name="eventDate1" type="date" class="form-control" id="eventDate1" >
-  <div class="invalid-feedback">
-      Please provide a date.
-  </div>
-</div>
+            */
 
-<div class="col-md-12 mt-3">
-  <label for="notesField">Event #1 Detail</label>
-  <textarea name="eventDetail1" id="eventDetail1" class="form-control" rows="3"></textarea>
-</div>
-
-<div class="col-md-4">
-  <label for="eventDate2">Event #2 Date</label>
-  <input name="eventDate2" type="date" class="form-control" id="eventDate2" >
-  <div class="invalid-feedback">
-      Please provide a date.
-  </div>
-</div>
-
-<div class="col-md-12 mt-3">
-  <label for="notesField">Event #2 Detail</label>
-  <textarea name="eventDetail2" id="eventDetail2" class="form-control" rows="3"></textarea>
-</div>
-
-
-
-          <button class="btn btn-primary float-right" type="submit">Submit</button>
-        </form>
-
-
-
-
-
-
-
-
-
-
-        <input type="hidden" id="editIndex" value="">
-
-        <div id="submission-msg" style="display: none; position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); background-color: #28a745; color: #fff; padding: 10px 20px; border-radius: 5px 5px 0 0;">
-          Contact added successfully!
-      </div>
-      
-        </div>
-      </div>
-      <!-- /.col-lg-12 -->
-    </div>
-    <!-- /.row -->
-
-
-  </div>
-  <script type="text/javascript" src="../node_modules/jquery/dist/jquery.min.js"></script>
-  <script type="text/javascript" src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="js/script.js"></script>
-  <script>
-    // Bootstrap fields validation script
-    (function() {
-      'use strict';
-      window.addEventListener('load', function() {
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        var forms = document.getElementsByClassName('needs-validation');
-        // Loop over them and prevent submission
-        var validation = Array.prototype.filter.call(forms, function(form) {
-          form.addEventListener('submit', function(event) {
-            if (form.checkValidity() === false) {
-              event.preventDefault();
-              event.stopPropagation();
+            //Fake login info disturb hackers
+            if (email === "grlewis@student.unimelb.edu.au" && password === "Test123!") {
+                window.location.href = "contacts-list.html";
+            } else {
+                alert("Incorrect email or password.");
             }
-            form.classList.add('was-validated');
-          }, false);
-        });
-      }, false);
-    })();
-  </script>
-
-
-
-
-
-
-
-
-
+        }
+    </script>
 
 </body>
 
