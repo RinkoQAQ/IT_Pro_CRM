@@ -12,6 +12,7 @@ const cors = require('cors');
 // 创建一个Express应用。
 const app = express();
 app.use(cors());
+app.use(bodyParser.json());
 
 // 设置我们的应用要监听的端口号。
 const port = 3000;
@@ -22,6 +23,12 @@ const connectionString = "mongodb://localhost:27017/mydatabase";  // mydatabase�
 mongoose.connect(connectionString, {
     useNewUrlParser: true,
     useUnifiedTopology: true
+});
+
+// 定义一个用户数据模型。
+const userSchema = new mongoose.Schema({
+    username: String,
+    password: String,
 });
 
 // 定义一个客户数据模型。
@@ -38,10 +45,11 @@ const customerSchema = new mongoose.Schema({
     profilePicture: String,
 });
 
-// 使用上述模型创建一个名为'Customer'的数据表模型。
+// 使用上述模型创建Customer和User的数据表模型
 const Customer = mongoose.model('Customer', customerSchema);
-// 使用body-parser库解析请求中的数据。
-app.use(bodyParser.json());
+const User = mongoose.model('User', userSchema);
+
+
 
 // POST(/customers) -> 插入数据
 app.post('/customers', async (req, res) => {
@@ -143,6 +151,56 @@ app.delete('/customers/:id', async (req, res) => {
         res.status(500).send(error);
     }
 });
+
+
+
+// 用户
+// 用户注册
+app.post('/register', async (req, res) => {
+    try {
+        const { username, password } = req.body;
+        
+        // 检查用户名是否已存在
+        const existingUser = await User.findOne({ username });
+
+        if (existingUser) {
+            return res.status(400).json({ message: 'Username already exists' });
+        }
+
+        const newUser = new User({ username, password });
+
+        // 保存用户到数据库
+        await newUser.save();
+        
+        res.status(201).json({ message: 'Registration successful' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// 用户登录
+app.post('/login', async (req, res) => {
+    try {
+        const { username, password } = req.body;
+
+        // 查找用户
+        const user = await User.findOne({ username });
+
+        if (!user) {
+            return res.status(401).json({ message: 'Username not found' });
+        }
+
+        // 检查密码
+        if (password === user.password) {
+            res.status(200).json({ message: 'Login successful' });
+        } else {
+            res.status(401).json({ message: 'Incorrect password' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 
 // 在指定的端口上启动应用。
 app.listen(port, () => {
