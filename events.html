@@ -2,182 +2,137 @@
 <html lang="en" dir="ltr">
 
 <head>
-  <meta charset="utf-8">
-  <title>Connections</title>
-  <link rel="stylesheet" href="frotnend/CSS/photo.css">
+    <meta charset="utf-8">
+    <title>Connections</title>
+    <link rel="stylesheet" href="frontend/CSS/photo.css">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
 
-  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
-
+    
+    
 </head>
 
 <body>
-  <div class="container">
-    <header>
-      <nav class="nav nav-pills">
-        <a class="nav-item nav-link" href="contacts-list.html">Connections</a>
-        <a class="nav-item nav-link active" href="events.html" id="myEventsBtn">My Events</a>
-        <a class="nav-item nav-link" href="new_contact.html"> + New Connection</a>
-        <a class="nav-item nav-link" href="my_profile.html"> My Profile</a>
-      </nav>
-      <a class="nav-item nav-logout" href="index.html">Logout</a> 
-      <style>
-.nav-item.nav-logout {
-    display: block;
-    position: absolute;
-    top: 20px;                    /* Position it at the middle vertically */
-    right: 200px;                /* 200px from the right edge */
-    transform: translateY(-50%); /* Shift it up half its height to truly center it */
-    text-decoration: none;
-    padding: 10px 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #1c62dc;
-    color: #ffffff;
-    transition: background-color 0.3s ease;
-}
+    <div class="container">
+        <header>
+            <nav class="nav nav-pills">
+                <a class="nav-item nav-link" href="contacts-list.html">Connections</a>
+                <a class="nav-item nav-link active" href="events.html" id="myEventsBtn">My Events</a>
+                <a class="nav-item nav-link" href="new_contact.html"> + New Connection</a>
+                <a class="nav-item nav-link" href="my_profile.html"> My Profile</a>
+            </nav>
+            <a class="nav-item nav-logout" href="index.html">Logout</a>
+            <style>
+                .nav-item.nav-logout {
+                    display: block;
+                    position: absolute;
+                    top: 20px;
+                    right: 200px;
+                    transform: translateY(-50%);
+                    text-decoration: none;
+                    padding: 10px 15px;
+                    border: 1px solid #ddd;
+                    border-radius: 5px;
+                    background-color: #1c62dc;
+                    color: #ffffff;
+                    transition: background-color 0.3s ease;
+                }
+            </style>
+        </header>
 
-      </style>
-    </header>
-    <br/>
-    <div class="row">
-      <div class="col-md-4">
+        <br/>
 
-        <input class="form-control" type="text" id="search" placeholder="Search data here.....">
-      </div>
+<!-- Calendar section -->
+<div class="calendar-container">
+    <select id="yearSelect" onchange="drawCalendar();">
+        <!-- Year options added by JavaScript -->
+    </select>
+    <select id="monthSelect" onchange="drawCalendar();">
+        <!-- Month options added by JavaScript -->
+    </select>
+    
+    <table class="calendar table table-bordered">
+        <!-- Calendar content added by JavaScript -->
+    </table>
+</div>
 
-    </div>
-    <br/>
-    <table id="table1" class="table">
-      <thead>
-        <tr>
-            <th>ID</th>
-            <th>Profile Picture</th>
-            <th>Name</th>
-            <th>Event #1 Date</th>
-            <th>Event #1 Detail</th>
-            <th>Event #2 Date</th>
-            <th>Event #2 Detail</th>
-            <th>Actions</th>
-          
+<script>
+    const yearSelect = document.getElementById('yearSelect');
+    const monthSelect = document.getElementById('monthSelect');
+
+    // Populate year dropdown
+    for (let i = 2021; i <= 2025; i++) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = i;
+        yearSelect.appendChild(option);
+    }
+
+    // Populate month dropdown
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    monthNames.forEach((month, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = month;
+        monthSelect.appendChild(option);
+    });
+
+    function drawCalendar() {
+        const year = +yearSelect.value;
+        const month = +monthSelect.value;
+
+        const firstDay = new Date(year, month, 1).getDay();
+        const lastDate = new Date(year, month + 1, 0).getDate();
+
+        let tableContent = '<thead><tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr></thead><tbody>';
+        let dayCounter = 1;
+        let isMonthStarted = false;
             
-        </tr>
-    </thead>
-    <tbody>
-    </tbody>
-    <tfoot>
-    </tfoot>
-
-  </div>
-
-  <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
-  <script type="text/javascript" src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-
-  <script>
-$(document).ready(function() {
-
-    
-// Check if in edit mode and populate form with existing data
-var editIndex = localStorage.getItem('editContactIndex');
-if (editIndex !== null) {
-    $('#editIndex').val(editIndex); // Set the hidden input value to indicate edit mode
-// Check if in edit mode and populate form with existing data
-var editIndex = localStorage.getItem('editContactIndex');
-if (editIndex !== null) {
-$('#editIndex').val(editIndex); // Set the hidden input value to indicate edit mode
-
-// Load the contact data and pre-fill the form
-var myContacts = JSON.parse(localStorage.getItem('itemsArray'));
-var contactToEdit = myContacts[editIndex];
-
-// New fields:
-$('input[name="name"]').val(contactToEdit.name);
-$('input[name="eventDate1"]').val(contactToEdit.eventDate1);
-$('input[name="eventDate2"]').val(contactToEdit.eventDate2);
-$('textarea[name="eventDetail1"]').val(contactToEdit.eventDetail1);
-$('textarea[name="eventDetail2"]').val(contactToEdit.eventDetail2);
-
-
-
-
-
-// For the profile picture:
-if (contactToEdit.profilePicture) {
-    // Assuming you might want to show the existing image somewhere on the form:
-    $('#previewImage').attr('src', contactToEdit.profilePicture);
-}
-
-localStorage.removeItem('editContactIndex'); // Clear it after using
-
-
-
-
-}
-
-}
-
-$('form').submit(function(e) {
-    e.preventDefault();
-
-    if (!this.checkValidity()) {
-        alert("Input is invalid. Please correct and submit again.");
-        return;
-    }
-
-    var data = $(this).serializeFormJSON();
-
-    var profilePictureFile = $('#profilePictureField')[0].files[0];
-    if(profilePictureFile) {
-        var reader = new FileReader();
-        reader.readAsDataURL(profilePictureFile);
-        reader.onload = function () {
-            data.profilePicture = reader.result;
-            processFormSubmission(data);
-        };
-    } else {
-        data.profilePicture = contactToEdit ? contactToEdit.profilePicture : null;  
-        processFormSubmission(data);
-    }
-});
-
-function processFormSubmission(data) {
-    var oldItems = JSON.parse(localStorage.getItem('itemsArray')) || [];
-    
-    if (editIndex !== null) { 
-        oldItems[editIndex] = data;
-    } else {
-        oldItems.push(data);
-    }
-    
-    localStorage.setItem('itemsArray', JSON.stringify(oldItems));
-
-    $('#submission-msg').fadeIn().delay(3000).fadeOut(function() {
-        window.location.href = "contacts-list.html";
-    });
-}
-});
-
-(function($) {
-$.fn.serializeFormJSON = function() {
-    var o = {};
-    var a = this.serializeArray();
-    $.each(a, function() {
-        if (o[this.name]) {
-            if (!o[this.name].push) {
-                o[this.name] = [o[this.name]];
+        for (let week = 0; week < 6; week++) {
+            tableContent += '<tr>';
+            
+            for (let day = 0; day < 7; day++) {
+                if (day === firstDay) isMonthStarted = true;
+                
+                if (isMonthStarted && dayCounter <= lastDate) {
+                    tableContent += `<td data-date="${year}-${month + 1}-${dayCounter}" onclick="onDayClick(this)">${dayCounter}</td>`;
+                    dayCounter++;
+                } else {
+                    tableContent += '<td></td>';
+                }
             }
-            o[this.name].push(this.value || '');
-        } else {
-            o[this.name] = this.value || '';
+            
+            tableContent += '</tr>';
         }
-    });
-    return o;
-};
-})(jQuery);
+        
+        tableContent += '</tbody>';
+        document.querySelector('.calendar').innerHTML = tableContent;
+    }
 
+    function onDayClick(tdElement) {
+        const date = tdElement.dataset.date;
+        const eventCreation = confirm(`Create event on ${date}?`);
+        
+        if (eventCreation) {
+            tdElement.classList.add('event');
+            tdElement.title = "Event Title";  // Replace "Event Title" with your actual event title.
+            tdElement.onclick = function() {
+                if (confirm('Delete event?')) {
+                    tdElement.classList.remove('event');
+                    tdElement.title = '';
+                    tdElement.onclick = function() {
+                        onDayClick(this);
+                    };
+                }
+            };
+        }
+    }
 
-  </script> 
+    drawCalendar();
+</script>
 
-
+        <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    </div>
 </body>
 
 </html>
