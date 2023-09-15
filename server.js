@@ -16,6 +16,7 @@ app.use(bodyParser.json());
 
 // // 设置我们的应用要监听的端口号。
 // const port = 3000;
+const port = process.env.PORT || 3000;
 
 // 修改此处的连接字符串，使其指向本地MongoDB
 // const connectionString = "mongodb://localhost:27017/mydatabase";  // mydatabase为您的数据库名称，可以根据实际情况修改
@@ -204,9 +205,8 @@ app.post('/login', async (req, res) => {
 });
 
 
-// // 在指定的端口上启动应用。
-// app.listen(port, () => {
-//     console.log(`CRM backend is running on http://localhost:${port}`);
-// });
+app.listen(port, () => {
+    console.log(`CRM backend is running on http://localhost:${port}`);
+});
 
 module.exports = app;  // 这里我们导出app对象
