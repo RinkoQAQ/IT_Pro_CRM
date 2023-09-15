@@ -4,6 +4,7 @@
   "description": "Evaluation task required by youxel",
   "main": "index.js",
   "scripts": {
+    "start": "node server.js",
     "test": "mocha test/customer.test.js"
   },
   "author": "Mai Ibraheem",
