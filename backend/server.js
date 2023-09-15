@@ -18,7 +18,9 @@ app.use(bodyParser.json());
 const port = 3000;
 
 // 修改此处的连接字符串，使其指向本地MongoDB
-const connectionString = "mongodb://localhost:27017/mydatabase";  // mydatabase为您的数据库名称，可以根据实际情况修改
+// const connectionString = "mongodb://localhost:27017/mydatabase";  // mydatabase为您的数据库名称，可以根据实际情况修改
+const connectionString = "mongodb+srv://js:123@personalcrm.w5i2deu.mongodb.net/?retryWrites=true&w=majority";
+
 
 mongoose.connect(connectionString, {
     useNewUrlParser: true,
