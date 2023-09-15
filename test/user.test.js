@@ -1,6 +1,6 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const app = require('../backend/server'); // 导入你的 Express 应用
+const app = require('../server'); // 导入你的 Express 应用
 const should = chai.should();
 
 chai.use(chaiHttp);
