@@ -69,6 +69,10 @@ app.post('/customers', async (req, res) => {
     }
 });
 
+app.get('/', (req, res) => {
+    res.send('Welcome to CRM backend!');
+});
+
 // GET (/customers) -> 获取所有角色
 app.get('/customers', async (req, res) => {
     try {
