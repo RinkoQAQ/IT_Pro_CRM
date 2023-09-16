@@ -1,5 +1,6 @@
 $(document).ready(function() {
-    const API_ENDPOINT = 'http://localhost:3000/customers';
+    // const API_ENDPOINT = 'http://localhost:3000/customers';
+    const API_ENDPOINT = 'https://personalcrm-8904b53adc96.herokuapp.com/customers';
 
 
     // 使用此函数从URL中提取参数

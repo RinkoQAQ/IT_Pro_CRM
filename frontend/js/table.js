@@ -1,6 +1,6 @@
 var addressBook = (function() {
-
-    const API_ENDPOINT = 'http://localhost:3000/customers';
+    // const API_ENDPOINT = 'http://localhost:3000/customers';
+    const API_ENDPOINT = 'https://personalcrm-8904b53adc96.herokuapp.com/customers';
     
     var table = $('#table1');
     const tbody = document.querySelector('tbody');
