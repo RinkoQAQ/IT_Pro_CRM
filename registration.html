@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('your-background-image.jpg'); 
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .registration-container {
+            background-color: rgba(255, 255, 255, 0.8); 
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .registration-container h1 {
+            color: rgb(0, 123, 255);
+            font-weight: bold;
+        }
+
+        .registration-input {
+            padding: 8px;
+            margin: 15px 0; /* 适当减小上下边距，以对齐 "Username:" 和输入框 */
+            width: 100%; /* 输入框宽度设置为100%以充满容器宽度 */
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .registration-label {
+            text-align: left;
+            font-weight: bold;
+            margin-left: 4px;
+            display: block; /* 将标签设置为块级元素，使其单独显示在一行 */
+        }
+
+        .registration-button {
+            padding: 10px 20px;
+            background-color: rgb(0, 123, 255);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block; /* 将按钮设置为块级元素，使其单独显示在一行 */
+            margin: 10px auto; /* 居中按钮 */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="registration-container">
+        <h1>Register for Your Personal CRM</h1>
+        <form>
+            <label class="registration-label" for="username">Username:</label>
+            <input class="registration-input" type="text" id="username" placeholder="Enter Username" required>
+            
+            <label class="registration-label" for="email">Email:</label>
+            <input class="registration-input" type="email" id="email" placeholder="Enter Email" required>
+            
+            <label class="registration-label" for="password">Password:</label>
+            <input class="registration-input" type="password" id="password" placeholder="Create Password" required>
+            
+            <label class="registration-label" for="confirmPassword">Confirm Password:</label>
+            <input class="registration-input" type="password" id="confirmPassword" placeholder="Confirm Password" required>
+
+            <button class="registration-button" onclick="register()">Register</button>
+        </form>
+    </div>
+
+    <script>
+        function register() {
+            const username = document.getElementById("username").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+                    // Check username length
+            if (username.length > 15) {
+                alert("Username cannot exceed 15 characters.");
+                return; // Prevent registration if username is too long
+            }
+
+        // Check password length
+            if (password.length > 20) {
+                alert("Password cannot exceed 20 characters.");
+                return; // Prevent registration if password is too long
+            }
+
+            // Add your registration logic here
+            if (password !== confirmPassword) {
+                alert("Passwords do not match. Please try again.");
+            } else {
+                // Perform registration
+                // You can send this data to your server or save it as needed
+                // After successful registration, you can redirect the user to the login page or take other actions
+                alert("Registration successful!");
+                // window.location.href = "login.html"; // Redirect to the login page
+                window.location.href = "index.html";
+            }
+        }
+    </script>
+</body>
+
+</html>
