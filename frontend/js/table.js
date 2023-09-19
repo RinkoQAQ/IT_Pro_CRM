@@ -32,21 +32,31 @@ var addressBook = (function() {
                     const birthday = customer.birthday || "N/A"; 
                     const company = customer.company || "N/A";
     
+                    // // 根据格式插入新行
+                    // tbody.insertAdjacentHTML('afterbegin',
+                    //     `<tr>
+                    //         <td>${customerId}</td>
+                    //         <td>${imgHtml}</td>
+                    //         <td>${name}</td>
+                    //         <td>${phone}</td>
+                    //         <td>${email}</td>
+                    //         <td>${group}</td>
+                    //         <td>${notes}</td>
+                    //         <td>${birthday}</td>
+                    //         <td>${company}</td>
+                    //         <td><button id="edit" class="btn btn-info">Edit</button><button id="remove" class="btn btn-danger">X</button></td>
+                    //     </tr>`
+                    // );
                     // 根据你的格式插入新行
                     tbody.insertAdjacentHTML('afterbegin',
-                        `<tr>
-                            <td>${customerId}</td>
-                            <td>${imgHtml}</td>
-                            <td>${name}</td>
-                            <td>${phone}</td>
-                            <td>${email}</td>
-                            <td>${group}</td>
-                            <td>${notes}</td>
-                            <td>${birthday}</td>
-                            <td>${company}</td>
-                            <td><button id="edit" class="btn btn-info">Edit</button><button id="remove" class="btn btn-danger">X</button></td>
-                        </tr>`
-                    );
+                    `<tr data-id="${customerId}">
+                        <td>${imgHtml}</td>
+                        <td>${name}</td>
+                        <td>${group}</td>
+                        <td><button id="edit" class="btn btn-info">Edit</button><button id="remove" class="btn btn-danger">X</button></td>
+                    </tr>`
+                );                
+                
                 }
             })
             .catch(error => {
@@ -77,9 +87,10 @@ var addressBook = (function() {
     // 将_id添加为URL参数传递给script.js
     function editPerson(event) {
         const row = event.target.closest('tr');
-        const customerId = row.cells[0].innerText;
-        window.location.href = `index.html?customerId=${customerId}`;
+        const customerId = row.dataset.id;
+        window.location.href = `new_contact.html?customerId=${customerId}`;
     }
+    
     
     
     // 搜索函数，搜索列表中的任意字符
