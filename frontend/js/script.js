@@ -72,8 +72,12 @@ $(document).ready(function() {
             })
             .then(response => response.json())
             .then(data => {
-                // 更新成功，可以在此显示一些通知或消息
                 console.log('Customer updated:', data);
+                alert('Customer updated successfully!'); // 显示提示
+                window.location.href = "contacts-list.html";
+                // setTimeout(() => { // 延迟2秒
+                //     window.location.href = "contacts-list.html";
+                // }, 2000);
             })
             .catch(error => {
                 console.error('Error updating customer:', error);
