@@ -66,7 +66,7 @@ var addressBook = (function() {
 
     function deletePerson(event) {
         const row = event.target.closest('tr');  // 获取点击按钮所在的行
-        const customerId = row.cells[0].innerText;
+        const customerId = row.dataset.id;
 
         fetch(`${API_ENDPOINT}/${customerId}`, {
             method: 'DELETE',

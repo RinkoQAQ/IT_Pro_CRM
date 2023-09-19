@@ -95,6 +95,9 @@ $(document).ready(function() {
             .then(data => {
                 // 创建成功，可以在此显示一些通知或消息
                 console.log('New customer created:', data);
+                alert('Customer create successfully!'); // 显示提示
+                window.location.href = "contacts-list.html";
+                
             })
             .catch(error => {
                 console.error('Error creating customer:', error);
