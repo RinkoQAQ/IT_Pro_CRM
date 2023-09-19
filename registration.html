@@ -63,25 +63,26 @@
 <body>
     <div class="registration-container">
         <h1>Register for Your Personal CRM</h1>
-        <form>
+        <form id="registration-form">
             <label class="registration-label" for="username">Username:</label>
-            <input class="registration-input" type="text" id="username" placeholder="Enter Username" required>
+            <input class="registration-input" type="text" id="registration-username" placeholder="Enter Username" required>
             
-            <label class="registration-label" for="email">Email:</label>
-            <input class="registration-input" type="email" id="email" placeholder="Enter Email" required>
+            <!-- <label class="registration-label" for="email">Email:</label>
+            <input class="registration-input" type="email" id="email" placeholder="Enter Email" required> -->
             
             <label class="registration-label" for="password">Password:</label>
-            <input class="registration-input" type="password" id="password" placeholder="Create Password" required>
+            <input class="registration-input" type="password" id="registration-password" placeholder="Create Password" required>
             
-            <label class="registration-label" for="confirmPassword">Confirm Password:</label>
-            <input class="registration-input" type="password" id="confirmPassword" placeholder="Confirm Password" required>
+            <!-- <label class="registration-label" for="confirmPassword">Confirm Password:</label>
+            <input class="registration-input" type="password" id="registration-confirm-password" placeholder="Confirm Password" required> -->
 
-            <button class="registration-button" onclick="register()">Register</button>
+            <button class="registration-button" type="submit">Register</button>
         </form>
     </div>
 
     <script>
-        function register() {
+
+        // function register() {
             const username = document.getElementById("username").value;
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
@@ -111,6 +112,8 @@
             }
         }
     </script>
+
+    <script src="frontend/js/auth.js"></script>
 </body>
 
 </html>
