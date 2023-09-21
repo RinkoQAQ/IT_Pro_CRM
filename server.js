@@ -34,6 +34,11 @@ const userSchema = new mongoose.Schema({
     password: String,
 });
 
+const eventSchema = new mongoose.Schema({
+    time: Date,
+    content: String
+});
+
 // 定义一个客户数据模型。
 // 这个模型描述了客户在数据库中应该有哪些字段和数据类型。
 const customerSchema = new mongoose.Schema({
@@ -46,7 +51,11 @@ const customerSchema = new mongoose.Schema({
     birthday: String,
     company: String,
     profilePicture: String,
+    events: [eventSchema]
 });
+
+
+
 
 // 使用上述模型创建Customer和User的数据表模型
 const Customer = mongoose.model('Customer', customerSchema);
@@ -208,6 +217,50 @@ app.post('/login', async (req, res) => {
     }
 });
 
+// events管理
+// POST (/customers/:id/events) -> 添加事件到特定客户
+app.post('/customers/:id/events', async (req, res) => {
+    try {
+        const customer = await Customer.findById(req.params.id);
+        if (!customer) {
+            return res.status(404).send({ message: 'Customer not found' });
+        }
+        customer.events.push(req.body);
+        await customer.save();
+        res.status(201).send(customer);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
+// GET (/customers/:id/events) -> 获取特定客户的所有事件
+app.get('/customers/:id/events', async (req, res) => {
+    try {
+        const customer = await Customer.findById(req.params.id);
+        if (!customer) {
+            return res.status(404).send({ message: 'Customer not found' });
+        }
+        res.status(200).send(customer.events);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
+// GET (/events) -> 获取所有客户的所有事件
+app.get('/events', async (req, res) => {
+    try {
+        const customers = await Customer.find();
+        const allEvents = customers.flatMap(customer => customer.events.map(event => {
+            return {
+                ...event.toObject(),
+                customerName: customer.name
+            };
+        }));
+        res.status(200).send(allEvents);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
 
 app.listen(port, () => {
     console.log(`CRM backend is running on http://localhost:${port}`);
