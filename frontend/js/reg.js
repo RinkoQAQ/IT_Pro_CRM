@@ -1,4 +1,6 @@
-const API_ENDPOINT = 'https://personalcrm-8904b53adc96.herokuapp.com';
+// const API_ENDPOINT = 'https://personalcrm-8904b53adc96.herokuapp.com';
+
+const API_ENDPOINT = 'https://personalcrmbackend-042e5db40ee3.herokuapp.com/';
 
 // 注册表单提交事件处理程序
 document.getElementById("registration-form").addEventListener("submit", async (e) => {

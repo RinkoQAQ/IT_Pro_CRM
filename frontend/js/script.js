@@ -1,7 +1,7 @@
 $(document).ready(function() {
     // const API_ENDPOINT = 'http://localhost:3000/customers';
-    const API_ENDPOINT = 'https://personalcrm-8904b53adc96.herokuapp.com/customers';
-
+    // const API_ENDPOINT = 'https://personalcrm-8904b53adc96.herokuapp.com/customers';
+    const API_ENDPOINT = 'https://personalcrmbackend-042e5db40ee3.herokuapp.com/customers';
 
     // 使用此函数从URL中提取参数
     function getParameterByName(name, url = window.location.href) {
