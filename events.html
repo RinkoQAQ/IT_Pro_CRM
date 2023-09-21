@@ -1,34 +1,18 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>Connections</title>
-    <link rel="stylesheet" href="frontend/CSS/photo.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- 引入FullCalendar的CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css">
+    <meta charset="UTF-8">
+    <title>Events</title>
+    <!-- Add jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Add FullCalendar -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+
+    <script src="events.js"></script>  <!-- Your JavaScript file -->
 </head>
 <body>
-    <div class="container">
-        <header>
-            <nav class="nav nav-pills">
-                <a class="nav-item nav-link" href="contacts-list.html">Connections</a>
-                <a class="nav-item nav-link active" href="events.html" id="myEventsBtn">My Events</a>
-                <a class="nav-item nav-link" href="new_contact.html"> + New Connection</a>
-                <a class="nav-item nav-link" href="my_profile.html"> My Profile</a>
-            </nav>
-            <a class="nav-item nav-logout" href="index.html">Logout</a>
-        </header>
-        <br/>
-        
-        <!-- FullCalendar 容器 -->
-        <div id='calendar'></div>
-        
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <!-- 引入FullCalendar的JS -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
-        <script src="frontend/js/events.js"></script>
-    </div>
+    <div id="calendar"></div>
 </body>
 </html>
