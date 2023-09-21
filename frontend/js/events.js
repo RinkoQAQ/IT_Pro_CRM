@@ -1,4 +1,4 @@
-var myEvents = (function() {
+$(document).ready(function() {
     const API_ENDPOINT = 'https://personalcrmbackend-042e5db40ee3.herokuapp.com/events'; // 替换为你的后端API地址
     const calendarElement = $('#calendar');
 
