@@ -1,6 +1,6 @@
 // const API_ENDPOINT = 'https://personalcrm-8904b53adc96.herokuapp.com';
 
-const API_ENDPOINT = 'https://personalcrmbackend-042e5db40ee3.herokuapp.com/';
+const API_ENDPOINT = 'https://personalcrmbackend-042e5db40ee3.herokuapp.com';
 
 // 登录表单提交事件处理程序
 document.getElementById("login-form").addEventListener("submit", async (e) => {
