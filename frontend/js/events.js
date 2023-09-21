@@ -1,32 +1,22 @@
-var eventManager = (function() {
-    const API_ENDPOINT = 'https://personalcrmbackend-042e5db40ee3.herokuapp.com/events';  // Replace with your API Endpoint
-    const calendarElement = $('#calendar');
-
-    $(document).ready(function() {
-        initCalendar();
-        fetchAndRenderEvents();
-    });
-
-    function initCalendar() {
-        calendarElement.fullCalendar({
-            // Your FullCalendar options here
-        });
-    }
-
-    function fetchAndRenderEvents() {
+document.addEventListener('DOMContentLoaded', function() {
+    const API_ENDPOINT = 'https://personalcrmbackend-042e5db40ee3.herokuapp.com/events';
+    
+    var calendarEl = document.getElementById('calendar');
+  
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      events: function(fetchInfo, successCallback, failureCallback) {
         fetch(API_ENDPOINT)
-            .then(response => response.json())
-            .then(events => {
-                calendarElement.fullCalendar('removeEvents');
-                calendarElement.fullCalendar('addEventSource', events);
-            })
-            .catch(error => {
-                console.error('Error fetching events:', error);
-            });
-    }
-
-    return {
-        initCalendar: initCalendar,
-        fetchAndRenderEvents: fetchAndRenderEvents
-    };
-})();
+          .then(res => res.json())
+          .then(events => {
+            successCallback(events);
+          })
+          .catch(err => {
+            failureCallback(err);
+          });
+      }
+    });
+  
+    calendar.render();
+  });
+  
