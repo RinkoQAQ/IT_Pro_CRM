@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "test": "mocha test/customer.test.js"
+    "test": "mocha test/event.test.js"
   },
   "author": "Mai Ibraheem",
   "license": "ISC",
