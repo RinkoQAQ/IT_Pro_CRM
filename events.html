@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-
 <head>
     <meta charset="utf-8">
     <title>Connections</title>
     <link rel="stylesheet" href="frontend/CSS/photo.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-
-    
-    
+    <!-- 引入FullCalendar的CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css">
 </head>
-
 <body>
     <div class="container">
         <header>
@@ -22,121 +18,17 @@
                 <a class="nav-item nav-link" href="my_profile.html"> My Profile</a>
             </nav>
             <a class="nav-item nav-logout" href="index.html">Logout</a>
-            <style>
-                .nav-item.nav-logout {
-                    display: block;
-                    position: absolute;
-                    top: 20px;
-                    right: 200px;
-                    transform: translateY(-50%);
-                    text-decoration: none;
-                    padding: 10px 15px;
-                    border: 1px solid #ddd;
-                    border-radius: 5px;
-                    background-color: #1c62dc;
-                    color: #ffffff;
-                    transition: background-color 0.3s ease;
-                }
-            </style>
         </header>
-
         <br/>
-
-<!-- Calendar section -->
-<div class="calendar-container">
-    <select id="yearSelect" onchange="drawCalendar();">
-        <!-- Year options added by JavaScript -->
-    </select>
-    <select id="monthSelect" onchange="drawCalendar();">
-        <!-- Month options added by JavaScript -->
-    </select>
-    
-    <table class="calendar table table-bordered">
-        <!-- Calendar content added by JavaScript -->
-    </table>
-</div>
-
-<script>
-    const yearSelect = document.getElementById('yearSelect');
-    const monthSelect = document.getElementById('monthSelect');
-
-    // Populate year dropdown
-    for (let i = 2021; i <= 2025; i++) {
-        const option = document.createElement('option');
-        option.value = i;
-        option.textContent = i;
-        yearSelect.appendChild(option);
-    }
-
-    // Populate month dropdown
-    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    monthNames.forEach((month, index) => {
-        const option = document.createElement('option');
-        option.value = index;
-        option.textContent = month;
-        monthSelect.appendChild(option);
-    });
-
-    function drawCalendar() {
-        const year = +yearSelect.value;
-        const month = +monthSelect.value;
-
-        const firstDay = new Date(year, month, 1).getDay();
-        const lastDate = new Date(year, month + 1, 0).getDate();
-
-        let tableContent = '<thead><tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr></thead><tbody>';
-        let dayCounter = 1;
-        let isMonthStarted = false;
-            
-        for (let week = 0; week < 6; week++) {
-            tableContent += '<tr>';
-            
-            for (let day = 0; day < 7; day++) {
-                if (day === firstDay) isMonthStarted = true;
-                
-                if (isMonthStarted && dayCounter <= lastDate) {
-                    tableContent += `<td data-date="${year}-${month + 1}-${dayCounter}" onclick="onDayClick(this)">${dayCounter}</td>`;
-                    dayCounter++;
-                } else {
-                    tableContent += '<td></td>';
-                }
-            }
-            
-            tableContent += '</tr>';
-        }
         
-        tableContent += '</tbody>';
-        document.querySelector('.calendar').innerHTML = tableContent;
-    }
-
-    function onDayClick(tdElement) {
-        const date = tdElement.dataset.date;
-        const eventCreation = confirm(`Create event on ${date}?`);
+        <!-- FullCalendar 容器 -->
+        <div id='calendar'></div>
         
-        if (eventCreation) {
-            tdElement.classList.add('event');
-            tdElement.title = "Event Title";  // Replace "Event Title" with your actual event title.
-            tdElement.onclick = function() {
-                if (confirm('Delete event?')) {
-                    tdElement.classList.remove('event');
-                    tdElement.title = '';
-                    tdElement.onclick = function() {
-                        onDayClick(this);
-                    };
-                }
-            };
-        }
-    }
-
-    drawCalendar();
-</script>
-
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+        <!-- 引入FullCalendar的JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+        <script src="frontend/js/events.js"></script>
     </div>
 </body>
-
 </html>
-
-<!-- Check Lin -->
