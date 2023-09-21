@@ -8,15 +8,11 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-image: url('your-background-image.jpg'); 
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
+            background-color: #f4f4f4;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
         }
 
         .registration-container {
@@ -34,8 +30,8 @@
 
         .registration-input {
             padding: 8px;
-            margin: 15px 0; /* 适当减小上下边距，以对齐 "Username:" 和输入框 */
-            width: 100%; /* 输入框宽度设置为100%以充满容器宽度 */
+            margin: 15px 0; 
+            width: 100%; 
             border-radius: 5px;
             border: 1px solid #ddd;
         }
@@ -44,7 +40,7 @@
             text-align: left;
             font-weight: bold;
             margin-left: 4px;
-            display: block; /* 将标签设置为块级元素，使其单独显示在一行 */
+            display: block; 
         }
 
         .registration-button {
@@ -54,9 +50,14 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            display: block; /* 将按钮设置为块级元素，使其单独显示在一行 */
-            margin: 10px auto; /* 居中按钮 */
+            display: block; 
+            margin: 10px auto; 
         }
+
+        .registration-cancel {
+            color: blue;           
+            text-decoration: underline; 
+}
     </style>
 </head>
 
@@ -73,10 +74,12 @@
             <label class="registration-label" for="password">Password:</label>
             <input class="registration-input" type="password" id="registration-password" placeholder="Create Password" required>
             
-            <!-- <label class="registration-label" for="confirmPassword">Confirm Password:</label>
-            <input class="registration-input" type="password" id="registration-confirm-password" placeholder="Confirm Password" required> -->
+             <label class="registration-label" for="confirmPassword">Confirm Password:</label>
+            <input class="registration-input" type="password" id="registration-confirm-password" placeholder="Confirm Password" required>
 
             <button class="registration-button" type="submit">Register</button>
+           
+            <a class="registration-cancel"href="index.html">Click here to Welcome page</a>
         </form>
     </div>
 
@@ -103,14 +106,10 @@
             if (password !== confirmPassword) {
                 alert("Passwords do not match. Please try again.");
             } else {
-                // Perform registration
-                // You can send this data to your server or save it as needed
-                // After successful registration, you can redirect the user to the login page or take other actions
                 alert("Registration successful!");
-                // window.location.href = "login.html"; // Redirect to the login page
                 window.location.href = "index.html";
             }
-        }
+        
     </script>
 
     <script src="frontend/js/reg.js"></script>
