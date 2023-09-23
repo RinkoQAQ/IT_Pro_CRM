@@ -8,8 +8,19 @@ Our Personal CRM is a web application that allows you to manage your relationshi
 
 
 ## Table of contents
+- [Features](#features)
+- [Code Standard](#code-standard)
+  - [Frontend Standards](#frontend-standards)
+  - [Backend Standards (Node.js)](#backend-standards-nodejs)
+  - [MongoDB](#mongodb)
+  - [GitHub](#github)
+  - [File Structure](#file-structure)
+  - [Formatting Conventions](#formatting-conventions)
+  - [Naming Conventions](#naming-conventions)
+  - [Scoping Conventions](#scoping-conventions)
+  - [Usage Conventions](#usage-conventions)
+  - [Compile Errors and Warnings](#compile-errors-and-warnings)
 
-[TOC]
 
 
 
