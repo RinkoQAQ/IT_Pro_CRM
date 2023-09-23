@@ -3,8 +3,13 @@
 
 ![image](https://github.com/RinkoQAQ/IT_Pro_CRM/assets/89683557/72fa9c5e-bc4e-41d6-8219-78a2d4dc3a71)
 
-
 Our Personal CRM is a web application that allows you to manage your relationships and interactions with people efficiently. It serves as a central hub for keeping track of your various group of individuals, such as family, friends, collegues, and industry contacts. With our Personal CRM, you can organize, update, and maintain infomation about your contacts, ensuring that your connections are well-managed and your interactions are meaningful.
+
+
+
+## Table of contents
+
+[TOC]
 
 
 
