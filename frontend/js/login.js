@@ -1,8 +1,7 @@
-// const API_ENDPOINT = 'https://personalcrm-8904b53adc96.herokuapp.com';
-
+// Define the API endpoint for authentication
 const API_ENDPOINT = 'https://personalcrmbackend-042e5db40ee3.herokuapp.com';
 
-// 登录表单提交事件处理程序
+// Login form submission event handler
 document.getElementById("login-form").addEventListener("submit", async (e) => {
     e.preventDefault();
     const username = document.getElementById("login-username").value;
@@ -18,9 +17,9 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
         });
 
         if (response.status === 200) {
-            // 登录成功，执行页面重定向
+            // Login successful, perform page redirection
             alert("Login successful :)");
-            window.location.href = "contacts-list.html"; // 重定向到 contacts-list.html
+            window.location.href = "contacts-list.html"; // Redirect to contacts-list.html
         } else if (response.status === 401) {
             alert("Username not found or incorrect password");
         } else {

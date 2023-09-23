@@ -1,9 +1,7 @@
 $(document).ready(function() {
-    // const API_ENDPOINT = 'http://localhost:3000/customers';
-    // const API_ENDPOINT = 'https://personalcrm-8904b53adc96.herokuapp.com/customers';
     const API_ENDPOINT = 'https://personalcrmbackend-042e5db40ee3.herokuapp.com/customers';
 
-    // 使用此函数从URL中提取参数
+    // Function to extract parameters from the URL
     function getParameterByName(name, url = window.location.href) {
         name = name.replace(/[\[\]]/g, '\\$&');
         const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
@@ -16,53 +14,48 @@ $(document).ready(function() {
     const customerId = getParameterByName('customerId');
 
     if (customerId) {
-        // 使用这个ID从你的后端API获取数据
+        // Fetch data from your backend API using the customer ID
         fetch(`${API_ENDPOINT}/${customerId}`)
             .then(response => response.json())
             .then(customer => {
-                // 使用返回的客户数据填充表单字段
-                // 假设你的表单字段的ID分别是nameField, phoneField等...
-                document.getElementById('nameField').value = customer.name || '';
-                document.getElementById('phoneField').value = customer.phone || '';
-                document.getElementById('emailField').value = customer.email || '';
-                // document.getElementById('addressField').value = customer.address || ''; // 还没有做address！
-                document.getElementById('notesField').value = customer.notes || '';
-                document.getElementById('groupField').value = customer.group || '';
-                document.getElementById('birthdayField').value = customer.birthday || '';
-                document.getElementById('companyField').value = customer.company || '';
+                // Populate form fields with the retrieved customer data
+                $('#nameField').val(customer.name || '');
+                $('#phoneField').val(customer.phone || '');
+                $('#emailField').val(customer.email || '');
+                $('#notesField').val(customer.notes || '');
+                $('#groupField').val(customer.group || '');
+                $('#birthdayField').val(customer.birthday || '');
+                $('#companyField').val(customer.company || '');
 
-                // // 处理图片预览？
+                // // Handle image preview
                 // if (customer.profilePicture) {
-                //     // 显示已存在的图片
+                //     // Display the existing image
                 //     $('#previewImage').attr('src', customer.profilePicture);
                 // }
             })
             .catch(error => {
                 console.error("Error fetching customer data:", error);
             });
-
-        
-        
     }
-    
-    // 表单提交事件的监听器
+
+    // Form submission event listener
     $('form').on('submit', function(event) {
-        event.preventDefault(); // 防止默认提交行为
+        event.preventDefault(); // Prevent the default submission behavior
 
         const formData = {
             name: $('#nameField').val(),
             email: $('#emailField').val(),
             phone: $('#phoneField').val(),
-            // address: $('#addressField').val(),  // 注释掉，因为没有这个字段
+            // address: $('#addressField').val(),  // Commented out as this field doesn't exist
             notes: $('#notesField').val(),
             group: $('#groupField').val(),
             birthday: $('#birthdayField').val(),
             company: $('#companyField').val(),
-            // profilePicture: $('#profilePictureField').val() // 需要其他方法处理文件上传
+            // profilePicture: $('#profilePictureField').val() // Needs another method for handling file upload
         };
 
         if (customerId) {
-            // 更新现有客户
+            // Update an existing customer
             fetch(`${API_ENDPOINT}/${customerId}`, {
                 method: 'PUT',
                 headers: {
@@ -73,17 +66,14 @@ $(document).ready(function() {
             .then(response => response.json())
             .then(data => {
                 console.log('Customer updated:', data);
-                alert('Customer updated successfully!'); // 显示提示
+                alert('Customer updated successfully!');
                 window.location.href = "contacts-list.html";
-                // setTimeout(() => { // 延迟2秒
-                //     window.location.href = "contacts-list.html";
-                // }, 2000);
             })
             .catch(error => {
                 console.error('Error updating customer:', error);
             });
         } else {
-            // 创建新客户
+            // Create a new customer
             fetch(API_ENDPOINT, {
                 method: 'POST',
                 headers: {
@@ -93,23 +83,18 @@ $(document).ready(function() {
             })
             .then(response => response.json())
             .then(data => {
-                // 创建成功，可以在此显示一些通知或消息
                 console.log('New customer created:', data);
-                alert('Customer create successfully!'); // 显示提示
+                alert('Customer created successfully!');
                 window.location.href = "contacts-list.html";
-                
             })
             .catch(error => {
                 console.error('Error creating customer:', error);
             });
         }
 
+        // Show a submission message, then navigate to the contacts list page
         $('#submission-msg').fadeIn().delay(2000).fadeOut(function() {
             window.location.href = "contacts-list.html";
         });
     });
-
-
-
 });
-

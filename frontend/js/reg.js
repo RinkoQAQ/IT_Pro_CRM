@@ -1,8 +1,7 @@
-// const API_ENDPOINT = 'https://personalcrm-8904b53adc96.herokuapp.com';
-
+// Define the API endpoint for user registration
 const API_ENDPOINT = 'https://personalcrmbackend-042e5db40ee3.herokuapp.com';
 
-// 注册表单提交事件处理程序
+// Registration form submission event handler
 document.getElementById("registration-form").addEventListener("submit", async (e) => {
     e.preventDefault();
     const username = document.getElementById("registration-username").value;
@@ -18,8 +17,9 @@ document.getElementById("registration-form").addEventListener("submit", async (e
         });
 
         if (response.status === 201) {
+            // Registration successful, perform page redirection
             alert("Registration successful");
-            window.location.href = "contacts-list.html";
+            window.location.href = "contacts-list.html"; // Redirect to contacts-list.html
         } else if (response.status === 400) {
             alert("Username already exists");
         } else {
