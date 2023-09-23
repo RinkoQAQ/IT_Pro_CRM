@@ -16,3 +16,6 @@ Our Personal CRM is a web application that allows you to manage your relationshi
 7. Profile Pictures - Attach profile pictures to contacts for quick identification.
 8. Calendar - View a calendar of events associated with your contacts, allowing you to stay organized and track meetings and engagements.
 9. Event Management - Add, edit, and delete events, and associate people with these events for comprehensive event planning.
+
+
+Feel free to suggest additional features or extensions to enhance the functionality of Personal CRM to better suit your needs.
