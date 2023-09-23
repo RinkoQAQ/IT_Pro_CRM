@@ -16,10 +16,9 @@ Our Personal CRM is a web application that allows you to manage your relationshi
 3. Notes - Add and update notes for each contact to keep track of important updates and reminders
 4. Contact Management - Easily add new contacts and remove outdated ones to maintain a relevant list of individuals.
 5. Group Organization - Group contacts to categorize and manage your relationships effectively.
-6. Group Management - Create, edit, and delete groups as needed to structure your contact organization.
-7. Profile Pictures - Attach profile pictures to contacts for quick identification.
-8. Calendar - View a calendar of events associated with your contacts, allowing you to stay organized and track meetings and engagements.
-9. Event Management - Add, edit, and delete events, and associate people with these events for comprehensive event planning.
+6. Profile Pictures - Attach profile pictures to contacts for quick identification.
+7. Calendar - View a calendar of events associated with your contacts, allowing you to stay organized and track meetings and engagements.
+8. Event Management - Add, edit, and delete events, and associate people with these events for comprehensive event planning.
 
 
 
