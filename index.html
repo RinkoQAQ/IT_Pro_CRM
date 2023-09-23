@@ -54,46 +54,18 @@
 <body>
 
     <div class="login-container">
-        <h1>Welcome to Your Personal CRM</h1>
+        <h1>你好！Welcome to Your Personal CRM</h1>
         <p>Categorize and Manage, Add and Schedule of contacts easy-to-use, integrated, efficient management relationships</p>
-        <input class="login-input" type="email" id="email" placeholder="Enter Email">
-        <input class="login-input" type="password" id="password" placeholder="Enter Password">
-        <button class="login-button" onclick="checkLogin()">Login</button>
+        <form id="login-form">
+            <input class="login-input" type="text" id="login-username" placeholder="Enter Username">
+            <input class="login-input" type="password" id="login-password" placeholder="Enter Password">
+            <button class="login-button" type="submit">Login</button>
+        </form>
+        <a class="registration-link" href="registration.html">No account information? Click here to register</a>
     </div>
 
-    <script>
-        function checkLogin() {
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
-
-            /*
-             :
-┼┼▓▓▓▓▓▓▓▓   :
-┼┼┼▓░░▓░░▓┼┼┼▒
-┼┼┼▓░░▓░░▓┼┼┼▒
-┼┼┼▓░░▓░░▓▓┼┼▒
-┼┼┼▓░░▓░░░▓┼┼▒
-┼┼┼▓░░▓░░░▓┼┼▒      Alan在代码里开车车咯~
-┼┼▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓   大家上车嘛~~~
-┼▓▓███▓▓▒▒▓████▓▓   : )
-┼┼█████▓▓▒▓▓▓▓▓▓▓▓
-┼███▒███▓▒▓▓▓▓▓▓▓▓
-┼██▒▒▒██▓▓▓▓▓▓██▓▓
-┼███▒███┼┼┼┼┼█▒▒█
-┼┼█████┼┼┼┼┼┼█▒▒█
-┼┼┼███┼┼┼┼┼┼┼┼██ 
-
-
-            */
-
-            //Fake login info disturb hackers
-            if (email === "grlewis@student.unimelb.edu.au" && password === "Test123!") {
-                window.location.href = "contacts-list.html";
-            } else {
-                alert("Incorrect email or password.");
-            }
-        }
-    </script>
+    <script src="frontend/js/login.js"></script>
+    
 
 </body>
 

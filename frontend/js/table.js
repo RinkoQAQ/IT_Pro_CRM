@@ -1,18 +1,20 @@
 var addressBook = (function() {
+    const API_ENDPOINT = 'https://personalcrmbackend-042e5db40ee3.herokuapp.com/customers';
 
-    const API_ENDPOINT = 'http://localhost:3000/customers';
-    
+    // Get references to HTML elements
     var table = $('#table1');
     const tbody = document.querySelector('tbody');
 
-    table.on('click', '#remove', deletePerson); // remove按钮 -> deletePerson
-    table.on('click', '#edit', editPerson); // edit按钮 -> editPerson
+    // Add event listeners for remove and edit buttons
+    table.on('click', '#remove', deletePerson);
+    table.on('click', '#edit', editPerson);
     
+    // Function to render the list of customers
     function renderCustomers() {
         fetch(API_ENDPOINT)
             .then(response => response.json())
             .then(customers => {
-                tbody.innerHTML = ''; // 清空tbody内容
+                tbody.innerHTML = ''; // Clear tbody content
     
                 for (let i = customers.length - 1; i >= 0; i--) {
                     const customer = customers[i];
@@ -22,7 +24,7 @@ var addressBook = (function() {
                     : 'No Image';
                     
                     const customerId = customer._id
-                    // 使用字段或默认值"N/A"
+                    // Using fields or default value "N/A"
                     const name = customer.name || "N/A";
                     const phone = customer.phone || "N/A";
                     const email = customer.email || "N/A";
@@ -32,18 +34,12 @@ var addressBook = (function() {
                     const birthday = customer.birthday || "N/A"; 
                     const company = customer.company || "N/A";
     
-                    // 根据你的格式插入新行
+                    // Insert a new row based on your format
                     tbody.insertAdjacentHTML('afterbegin',
-                        `<tr>
-                            <td>${customerId}</td>
+                        `<tr data-id="${customerId}">
                             <td>${imgHtml}</td>
                             <td>${name}</td>
-                            <td>${phone}</td>
-                            <td>${email}</td>
                             <td>${group}</td>
-                            <td>${notes}</td>
-                            <td>${birthday}</td>
-                            <td>${company}</td>
                             <td><button id="edit" class="btn btn-info">Edit</button><button id="remove" class="btn btn-danger">X</button></td>
                         </tr>`
                     );
@@ -54,9 +50,10 @@ var addressBook = (function() {
             });
     }
 
+    // Function to delete a customer
     function deletePerson(event) {
-        const row = event.target.closest('tr');  // 获取点击按钮所在的行
-        const customerId = row.cells[0].innerText;
+        const row = event.target.closest('tr');  // Get the row containing the clicked button
+        const customerId = row.dataset.id;
 
         fetch(`${API_ENDPOINT}/${customerId}`, {
             method: 'DELETE',
@@ -64,7 +61,7 @@ var addressBook = (function() {
         .then(response => {
             if (response.ok) {
                 alert('Customer deleted successfully');
-                renderCustomers();  // 删除后重新渲染表格
+                renderCustomers();  // Re-render the table after deletion
             } else {
                 alert('Error deleting customer');
             }
@@ -74,26 +71,23 @@ var addressBook = (function() {
         });
     }
 
-    // 将_id添加为URL参数传递给script.js
+    // Function to edit a customer
     function editPerson(event) {
         const row = event.target.closest('tr');
-        const customerId = row.cells[0].innerText;
-        window.location.href = `index.html?customerId=${customerId}`;
+        const customerId = row.dataset.id;
+        window.location.href = `new_contact.html?customerId=${customerId}`;
     }
     
-    
-    // 搜索函数，搜索列表中的任意字符
+    // Search function to filter rows by customer name
     $("#search").on("keyup", function() {
         var value = $(this).val().toLowerCase();
         $("table tr").filter(function(index) {
-            if (index > 0) {
+            if (index > 0) { // Skip the table header row
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
             }
         });
     });
     
-    // 当页面加载完成后调用此函数
+    // Call renderCustomers when the page loads
     window.onload = renderCustomers;
-    
-    
 })();
