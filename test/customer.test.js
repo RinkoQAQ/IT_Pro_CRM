@@ -1,38 +1,37 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const app = require('../backend/server'); // Adjust the path accordingly
+const app = require('../server');
+const should = chai.should();
 
-const expect = chai.expect;
 chai.use(chaiHttp);
 
 describe('Customers API', () => {
-    // Setup default timeout
-    const timeout = 8000; 
+    // Set up the default timeout
+    const timeout = 8000;
 
-    // GET 获得所有customer
+    // GET - Retrieve all customers
     describe('GET /customers', () => {
-        it('should get all customers', (done) => {
+        it('should retrieve all customers', (done) => {
             chai.request(app)
                 .get('/customers')
                 .timeout(timeout)
                 .end((err, res) => {
                     expect(err).to.be.null;
                     expect(res).to.have.status(200);
-                    expect(res.body).to.be.a('array');
-    
-                    // Output all role information to the terminal
+                    expect(res.body).to.be.an('array');
+
+                    // Log all customer information to the console
                     console.log('List of all customers:');
                     res.body.forEach(customer => {
-                        console.log(`Customer ID: ${customer._id}, Name: ${customer.name}, Email: ${customer.emial}`);
+                        console.log(`Customer ID: ${customer._id}, Name: ${customer.name}, Email: ${customer.email}`);
                     });
-    
+
                     done();
                 });
         });
     });
-    
 
-    // POST 插入新的customer
+    // POST - Insert a new customer
     describe('POST /customers', () => {
         it('should add a new customer', (done) => {
             const customerData = {
@@ -54,92 +53,88 @@ describe('Customers API', () => {
                 .end((err, res) => {
                     expect(err).to.be.null;
                     expect(res).to.have.status(201);
-                    expect(res.body).to.be.a('object');
+                    expect(res.body).to.be.an('object');
                     expect(res.body).to.have.property('_id');
                     done();
                 });
         });
     });
 
-    // // PUT 输入id更新customer
-    // describe('PUT /customers/:id', () => {
-    //     it('should update the customer', (done) => {
-    //         const updatedData = {
-    //             name: "Updated Name"
-    //         };
+    // PUT - Update a customer by ID
+    describe('PUT /customers/:id', () => {
+        it('should update the customer', (done) => {
+            const updatedData = {
+                name: "Updated Name"
+            };
 
-    //         const customerId = "64ec825d56484829ecb5e981"; // 你需要在这里填写id
+            const customerId = "64ec825d56484829ecb5e981"; // Insert the ID here
 
-    //         chai.request(app)
-    //             .put('/customers/' + customerId)
-    //             .send(updatedData)
-    //             .timeout(timeout)
-    //             .end((err, res) => {
-    //                 expect(err).to.be.null;
-    //                 expect(res).to.have.status(200);
-    //                 expect(res.body).to.be.a('object');
-    //                 expect(res.body.name).to.equal("Updated Name");
-    //                 done();
-    //             });
-    //     });
-    // });
+            chai.request(app)
+                .put('/customers/' + customerId)
+                .send(updatedData)
+                .timeout(timeout)
+                .end((err, res) => {
+                    expect(err).to.be.null;
+                    expect(res).to.have.status(200);
+                    expect(res.body).to.be.an('object');
+                    expect(res.body.name).to.equal("Updated Name");
+                    done();
+                });
+        });
+    });
 
-    // // DELETE 删除指定id的customer
-    // describe('DELETE /customers/:id', () => {
-    //     it('should delete the customer or indicate if ID is not found', (done) => {
-    //         const customerId = "64ec818f651668ce30844810"; // 在这里插入你想删除的ID
-    
-    //         chai.request(app)
-    //             .delete('/customers/' + customerId)
-    //             .end((err, res) => {
-    //                 if (err) {
-    //                     console.error("An error occurred:", err.message);
-    //                     done(err);
-    //                 } else {
-    //                     // 404表示ID不存在
-    //                     if (res.status === 404) {
-    //                         console.log(`No customer found with the ID: ${customerId}`);
-    //                     } else if (res.status === 200) {
-    //                         console.log(`Deleted customer with ID: ${res.body._id}`);
-    //                         expect(res.body).to.be.a('object');
-    //                         expect(res.body).to.have.property('_id').equal(customerId);
-    //                     } else {
-    //                         console.log("Unexpected response received.");
-    //                     }
-    //                     done();
-    //                 }
-    //             });
-    //     });
-    // });
+    // DELETE - Delete a customer by ID
+    describe('DELETE /customers/:id', () => {
+        it('should delete the customer or indicate if ID is not found', (done) => {
+            const customerId = "64ec818f651668ce30844810"; // Insert the ID of the customer to delete here
 
-    // // GET 通过姓名获取customer的所有信息
-    // describe('Fetch Customers by Name', () => {
+            chai.request(app)
+                .delete('/customers/' + customerId)
+                .end((err, res) => {
+                    if (err) {
+                        console.error("An error occurred:", err.message);
+                        done(err);
+                    } else {
+                        // 404 indicates ID not found
+                        if (res.status === 404) {
+                            console.log(`No customer found with the ID: ${customerId}`);
+                        } else if (res.status === 200) {
+                            console.log(`Deleted customer with ID: ${res.body._id}`);
+                            expect(res.body).to.be.an('object');
+                            expect(res.body).to.have.property('_id').equal(customerId);
+                        } else {
+                            console.log("Unexpected response received.");
+                        }
+                        done();
+                    }
+                });
+        });
+    });
 
-    //     it('should return customers with the provided name or indicate absence', (done) => {
-    //         const testName = 'Updated Name';  // 更改为您想测试的名字
-    
-    //         chai.request(app)
-    //             .get(`/customers-by-name/${testName}`)
-    //             .end((err, res) => {
-    //                 if (err) {
-    //                     console.error("An error occurred:", err.message);
-    //                     done(err);
-    //                 } else {
-    //                     // 如果响应中没有数据，表示名字不存在
-    //                     if (res.body.length === 0 || res.status === 404) {
-    //                         console.log(`No customers found with the name: ${testName}`);
-    //                     } else {
-    //                         console.log(`Found customers for name "${testName}":`);
-    //                         res.body.forEach(customer => {
-    //                             console.log(`ID: ${customer._id}, Name: ${customer.name}, Email: ${customer.email}`);  // 您可以选择要显示的字段
-    //                         });
-    //                     }
-    //                     done();
-    //                 }
-    //             });
-    //     });
-    
-    // });
+    // GET - Retrieve customer information by name
+    describe('Fetch Customers by Name', () => {
+        it('should return customers with the provided name or indicate absence', (done) => {
+            const testName = 'Updated Name';  // Change to the name you want to test
 
-
+            chai.request(app)
+                .get(`/customers-by-name/${testName}`)
+                .end((err, res) => {
+                    if (err) {
+                        console.error("An error occurred:", err.message);
+                        done(err);
+                    } else {
+                        // If there is no data in the response, the name does not exist
+                        if (res.body.length === 0 || res.status === 404) {
+                            console.log(`No customers found with the name: ${testName}`);
+                        } else {
+                            console.log(`Found customers for name "${testName}":`);
+                            res.body.forEach(customer => {
+                                console.log(`ID: ${customer._id}, Name: ${customer.name}, Email: ${customer.email}`);  // You can choose which fields to display
+                            });
+                        }
+                        done();
+                    }
+                });
+        });
+    });
 });

@@ -1,38 +1,49 @@
-// 引入express库，它是一个用于构建Web应用的框架。
+// Import the express library, which is a framework for building web applications.
 const express = require('express');
 
-// 引入body-parser库，它可以帮助我们解析来自前端的数据。
+// Import the body-parser library to parse data from the frontend.
 const bodyParser = require('body-parser');
 
-// 引入mongoose库，它是一个用于连接和操作MongoDB的工具。
+// Import the mongoose library for connecting and working with MongoDB.
 const mongoose = require('mongoose');
 
+// Import CORS for handling cross-origin requests.
 const cors = require('cors');
 
-// 创建一个Express应用。
+// Create an Express application.
 const app = express();
+
+// Enable CORS middleware to handle cross-origin requests.
 app.use(cors());
+
+// Use bodyParser to parse JSON data from incoming requests.
 app.use(bodyParser.json());
 
-// 设置我们的应用要监听的端口号。
-const port = 3000;
+// Set the port that our application will listen on.
+const port = process.env.PORT || 3000;
 
-// 修改此处的连接字符串，使其指向本地MongoDB
-const connectionString = "mongodb://localhost:27017/mydatabase";  // mydatabase为您的数据库名称，可以根据实际情况修改
+// Modify the connection string to point to your MongoDB cluster.
+const connectionString = "mongodb+srv://js:123@personalcrm.w5i2deu.mongodb.net/?retryWrites=true&w=majority";
 
+// Connect to MongoDB using Mongoose.
 mongoose.connect(connectionString, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
 
-// 定义一个用户数据模型。
+// Define a user data model.
 const userSchema = new mongoose.Schema({
     username: String,
     password: String,
 });
 
-// 定义一个客户数据模型。
-// 这个模型描述了客户在数据库中应该有哪些字段和数据类型。
+// Define an event data model for customer events.
+const eventSchema = new mongoose.Schema({
+    time: Date,
+    content: String
+});
+
+// Define a customer data model.
 const customerSchema = new mongoose.Schema({
     name: String,
     email: String,
@@ -43,124 +54,125 @@ const customerSchema = new mongoose.Schema({
     birthday: String,
     company: String,
     profilePicture: String,
+    events: [eventSchema]
 });
 
-// 使用上述模型创建Customer和User的数据表模型
+// Create Customer and User data table models using the defined schemas.
 const Customer = mongoose.model('Customer', customerSchema);
 const User = mongoose.model('User', userSchema);
 
-
-
-// POST(/customers) -> 插入数据
+// POST(/customers) -> Insert data
 app.post('/customers', async (req, res) => {
     try {
-        // 使用请求中的数据创建一个新的客户。
+        // Create a new customer using the data from the request body.
         const customer = new Customer(req.body);
-        // 保存这个客户到数据库中。
+        // Save this customer to the database.
         await customer.save();
-        // 返回成功响应和新创建的客户信息。
+        // Return a success response with the newly created customer information.
         res.status(201).send(customer);
     } catch (error) {
-        // 如果出现错误，返回错误信息。
+        // If an error occurs, return an error response.
         res.status(500).send(error);
     }
 });
 
-// GET (/customers) -> 获取所有角色
+// Root endpoint
+app.get('/', (req, res) => {
+    res.send('Welcome to CRM backend!');
+});
+
+// GET (/customers) -> Get all customers
 app.get('/customers', async (req, res) => {
     try {
-        // 从数据库中获取所有客户的信息。
+        // Retrieve all customer information from the database.
         const customers = await Customer.find();
-        // 返回成功响应和客户信息。
+        // Return a success response with customer information.
         res.status(200).send(customers);
     } catch (error) {
-        // 如果出现错误，返回错误信息。
+        // If an error occurs, return an error response.
         res.status(500).send(error);
     }
 });
 
-// GET(/customers-by-name/:name) -> 返回与该姓名匹配的所有客户数据
+// GET(/customers-by-name/:name) -> Return all customer data that matches the given name
 app.get('/customers-by-name/:name', async (req, res) => {
     try {
-        // 从数据库中查找与指定姓名匹配的所有客户。
+        // Find all customers from the database that match the specified name.
         const customersWithName = await Customer.find({ name: req.params.name });
 
         if (customersWithName.length === 0) {
             return res.status(404).send({ message: 'No customers found with the given name.' });
         }
 
-        // 返回成功响应和客户列表。
+        // Return a success response with the list of customers.
         res.status(200).send(customersWithName);
     } catch (error) {
-        // 如果出现错误，返回错误信息。
+        // If an error occurs, return an error response.
         res.status(500).send(error);
     }
 });
 
-
-// GET (/customers/:id) -> 返回指定ID的客户信息。
+// GET (/customers/:id) -> Return customer information for the specified ID.
 app.get('/customers/:id', async (req, res) => {
     try {
-        // 从数据库中获取指定ID的客户信息。
+        // Get customer information for the specified ID from the database.
         const customer = await Customer.findById(req.params.id);
-        // 如果客户不存在，返回404状态码。
+        // If the customer doesn't exist, return a 404 status.
         if (!customer) {
             return res.status(404).send();
         }
-        // 返回成功响应和客户信息。
+        // Return a success response with customer information.
         res.status(200).send(customer);
     } catch (error) {
-        // 如果出现错误，返回错误信息。
+        // If an error occurs, return an error response.
         res.status(500).send(error);
     }
 });
 
-// PUT(/customers/:id) -> 更新指定ID的客户信息。
+// PUT(/customers/:id) -> Update customer information for the specified ID.
 app.put('/customers/:id', async (req, res) => {
     try {
-        // 更新指定ID的客户信息。
+        // Update customer information for the specified ID.
         const customer = await Customer.findByIdAndUpdate(req.params.id, req.body, {
-            new: true,          // 返回更新后的数据。
-            runValidators: true // 在保存之前验证数据。
+            new: true,          // Return the updated data.
+            runValidators: true // Validate data before saving.
         });
-        // 如果客户不存在，返回404状态码。
+        // If the customer doesn't exist, return a 404 status.
         if (!customer) {
             return res.status(404).send();
         }
-        // 返回成功响应和更新后的客户信息。
+        // Return a success response with the updated customer information.
         res.status(200).send(customer);
     } catch (error) {
-        // 如果出现错误，返回错误信息。
+        // If an error occurs, return an error response.
         res.status(500).send(error);
     }
 });
 
-// DELETE(/customers/:id) -> 删除指定ID的客户。
+// DELETE(/customers/:id) -> Delete the customer with the specified ID.
 app.delete('/customers/:id', async (req, res) => {
     try {
-        // 从数据库中删除指定ID的客户。
+        // Delete the customer with the specified ID from the database.
         const customer = await Customer.findByIdAndDelete(req.params.id);
-        // 如果客户不存在，返回404状态码。
+        // If the customer doesn't exist, return a 404 status.
         if (!customer) {
             return res.status(404).send();
         }
-        // 返回成功响应和被删除的客户信息。
+        // Return a success response with the deleted customer information.
         res.status(200).send(customer);
     } catch (error) {
-        // 如果出现错误，返回错误信息。
+        // If an error occurs, return an error response.
         res.status(500).send(error);
     }
 });
 
-
-
-// 用户
-// 用户注册
+// User
+// User registration
 app.post('/register', async (req, res) => {
     try {
         const { username, password } = req.body;
-        
-        // 检查用户名是否已存在
+
+        // Check if the username already exists.
         const existingUser = await User.findOne({ username });
 
         if (existingUser) {
@@ -169,42 +181,92 @@ app.post('/register', async (req, res) => {
 
         const newUser = new User({ username, password });
 
-        // 保存用户到数据库
+        // Save the user to the database.
         await newUser.save();
-        
+
         res.status(201).json({ message: 'Registration successful' });
     } catch (error) {
+        // If an error occurs, return an error response.
         res.status(500).json({ error: error.message });
     }
 });
 
-// 用户登录
+// User login
 app.post('/login', async (req, res) => {
     try {
         const { username, password } = req.body;
 
-        // 查找用户
+        // Find the user.
         const user = await User.findOne({ username });
 
         if (!user) {
             return res.status(401).json({ message: 'Username not found' });
         }
 
-        // 检查密码
+        // Check the password.
         if (password === user.password) {
             res.status(200).json({ message: 'Login successful' });
         } else {
             res.status(401).json({ message: 'Incorrect password' });
         }
     } catch (error) {
+        // If an error occurs, return an error response.
         res.status(500).json({ error: error.message });
     }
 });
 
+// Event management
+// POST (/customers/:id/events) -> Add an event to a specific customer
+app.post('/customers/:id/events', async (req, res) => {
+    try {
+        const customer = await Customer.findById(req.params.id);
+        if (!customer) {
+            return res.status(404).send({ message: 'Customer not found' });
+        }
+        customer.events.push(req.body);
+        await customer.save();
+        res.status(201).send(customer);
+    } catch (error) {
+        // If an error occurs, return an error response.
+        res.status(500).send(error);
+    }
+});
 
-// 在指定的端口上启动应用。
+// GET (/customers/:id/events) -> Get all events for a specific customer
+app.get('/customers/:id/events', async (req, res) => {
+    try {
+        const customer = await Customer.findById(req.params.id);
+        if (!customer) {
+            return res.status(404).send({ message: 'Customer not found' });
+        }
+        res.status(200).send(customer.events);
+    } catch (error) {
+        // If an error occurs, return an error response.
+        res.status(500).send(error);
+    }
+});
+
+// GET (/events) -> Get all events for all customers
+app.get('/events', async (req, res) => {
+    try {
+        const customers = await Customer.find();
+        const allEvents = customers.flatMap(customer => customer.events.map(event => {
+            return {
+                ...event.toObject(),
+                customerName: customer.name
+            };
+        }));
+        res.status(200).send(allEvents);
+    } catch (error) {
+        // If an error occurs, return an error response.
+        res.status(500).send(error);
+    }
+});
+
+// Start the CRM backend on the specified port.
 app.listen(port, () => {
     console.log(`CRM backend is running on http://localhost:${port}`);
 });
 
-module.exports = app;  // 这里我们导出app对象
+// Export the app object.
+module.exports = app;
