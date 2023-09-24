@@ -2,61 +2,83 @@
 <html lang="en" dir="ltr">
 
 <head>
-  <meta charset="utf-8">
-  <title>Connections</title>
-  <link rel="stylesheet" href="frontend/CSS/photo.css">
+    <meta charset="utf-8">
+    <title>Create Event</title>
+    <link rel="stylesheet" href="frontend/CSS/photo.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <style>
+        .nav-item.nav-logout {
+            display: block;
+            position: absolute;
+            top: 20px;
+            right: 200px;
+            transform: translateY(-50%);
+            text-decoration: none;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #1c62dc;
+            color: #ffffff;
+            transition: background-color 0.3s ease;
+        }
 
+        .event-form {
+            margin-top: 50px;
+        }
+
+        .event-form label {
+            font-weight: bold;
+        }
+
+        .event-form input,
+        .event-form textarea {
+            margin-bottom: 20px;
+            border-radius: 5px;
+            padding: 10px;
+        }
+    </style>
 </head>
 
 <body>
-  <div class="container">
-    <header>
-      <nav class="nav nav-pills">
-        
-            <a class="nav-item nav-link active" href="#">Connections</a>
-            <a class="nav-item nav-link" href="events.html" id="myEventsBtn">My Events</a>
-            <a class="nav-item nav-link" href="new_contact.html"> + New Connection</a>
-            <a class="nav-item nav-link" href="my_profile.html"> My Profile</a> 
-      </nav>
-      <a class="nav-item nav-logout" href="index.html">Logout</a> 
-      <style>
-.nav-item.nav-logout {
-    display: block;
-    position: absolute;
-    top: 20px;                    /* Position it at the middle vertically */
-    right: 200px;                /* 200px from the right edge */
-    transform: translateY(-50%); /* Shift it up half its height to truly center it */
-    text-decoration: none;
-    padding: 10px 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #1c62dc;
-    color: #ffffff;
-    transition: background-color 0.3s ease;
-}
+    <div class="container">
+        <header>
+            <nav class="nav nav-pills">
+                <a class="nav-item nav-link active" href="#">Connections</a>
+                <a class="nav-item nav-link" href="events.html" id="myEventsBtn">My Events</a>
+                <a class="nav-item nav-link" href="new_contact.html"> + New Connection</a>
+                <a class="nav-item nav-link" href="my_profile.html"> My Profile</a>
+            </nav>
+            <a class="nav-item nav-logout" href="index.html">Logout</a>
+        </header>
 
-      </style>
-    </header>
-    
+        <div class="event-form">
+            <h2>Create New Event</h2>
+            <form>
+                <label for="event-title">Title:</label>
+                <input type="text" id="event-title" class="form-control" required>
 
+                <label for="event-date">Date:</label>
+                <input type="date" id="event-date" class="form-control" required>
 
+                <label for="event-location">Location:</label>
+                <input type="text" id="event-location" class="form-control" required>
 
+                <label for="event-contact">Contact:</label>
+                <input type="text" id="event-contact" class="form-control" required>
 
+                <label for="event-notes">Notes:</label>
+                <textarea id="event-notes" class="form-control" rows="4"></textarea>
 
+                <input type="submit" value="Create Event" class="btn btn-primary">
+            </form>
+        </div>
+    </div>
+    <!-- Check Lin -->
 
-
-
-
-    
-
-  <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
-  <script type="text/javascript" src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-
-  <script type="text/javascript" src="frontend/js/table.js"></script>
-
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="frontend/js/table.js"></script>
 </body>
 
 </html>
