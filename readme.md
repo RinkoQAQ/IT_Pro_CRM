@@ -7,7 +7,28 @@ Our Personal CRM is a web application that allows you to manage your relationshi
 
 
 
-## Table of contents
+# Table of Contents
+
+1. [Customer Relationship Management - CRM](#customer-relationship-management---crm)
+2. [Features](#features)
+3. [Dependency](#dependency)
+    - [Backend](#backend)
+    - [Frontend](#frontend)
+4. [Deployment](#deployment)
+    - [Deploying the Front-end (Vercel)](#deploying-the-front-end-vercel)
+    - [Deploying the Back-end (Heroku)](#deploying-the-back-end-heroku)
+5. [Code Standard](#code-standard)
+    - [Frontend Standards](#frontend-standards)
+    - [Backend Standards (Node.js)](#backend-standards-nodejs)
+        - [MongoDB](#mongodb)
+    - [GitHub](#github)
+    - [General standard](#general-standard)
+        - [File Structure](#file-structure)
+        - [Formatting Conventions](#formatting-conventions)
+        - [Naming Conventions](#naming-conventions)
+        - [Scoping Conventions](#scoping-conventions)
+        - [Usage Conventions](#usage-conventions)
+        - [Compile Errors and Warnings](#compile-errors-and-warnings)
 
 
 
