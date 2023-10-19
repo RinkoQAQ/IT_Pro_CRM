@@ -10,6 +10,9 @@ const mongoose = require('mongoose');
 // Import CORS for handling cross-origin requests.
 const cors = require('cors');
 
+// Import bcrypt library for password encrypt
+const bcrypt = require('bcrypt');
+
 // Create an Express application.
 const app = express();
 
@@ -33,28 +36,30 @@ mongoose.connect(connectionString, {
 
 // Define a user data model.
 const userSchema = new mongoose.Schema({
-    username: String,
-    password: String,
+    username:       String,
+    password:       String,
+    profilePicture: String,
+    email:          String,
 });
 
 // Define an event data model for customer events.
 const eventSchema = new mongoose.Schema({
-    time: Date,
-    content: String
+    time:           Date,
+    content:        String
 });
 
 // Define a customer data model.
 const customerSchema = new mongoose.Schema({
-    name: String,
-    email: String,
-    phone: String,
-    address: String,
-    notes: String,
-    group: String,
-    birthday: String,
-    company: String,
+    name:           String,
+    email:          String,
+    phone:          String,
+    address:        String,
+    notes:          String,
+    group:          String,
+    birthday:       String,
+    company:        String,
     profilePicture: String,
-    events: [eventSchema]
+    events:         [eventSchema]
 });
 
 // Create Customer and User data table models using the defined schemas.
@@ -178,8 +183,11 @@ app.post('/register', async (req, res) => {
         if (existingUser) {
             return res.status(400).json({ message: 'Username already exists' });
         }
+        
+        // Use 'bcrypt' library to encrypt passwords  
+        const hashedPassword = await bcrypt.hash(password, 10);
 
-        const newUser = new User({ username, password });
+        const newUser = new User({ username, password: hashedPassword });
 
         // Save the user to the database.
         await newUser.save();
