@@ -10,6 +10,9 @@ const mongoose = require('mongoose');
 // Import CORS for handling cross-origin requests.
 const cors = require('cors');
 
+// Import bcrypt library for password encryption
+const bcrypt = require('bcrypt');
+
 // Create an Express application.
 const app = express();
 
@@ -36,6 +39,8 @@ mongoose.connect(connectionString, {
 const userSchema = new mongoose.Schema({
     username: String,
     password: String,
+    profilePicture: String,
+    email: String
 });
 
 // Define an event data model for customer events.
@@ -180,7 +185,10 @@ app.post('/register', async (req, res) => {
             return res.status(400).json({ message: 'Username already exists' });
         }
 
-        const newUser = new User({ username, password });
+        // Use bcrypt to generate hashed password
+        const hashedPassword = await bcrypt.hash(password, 10); // 10 is a hash round number
+        
+        const newUser = new User({ username, password: hashedPassword });
 
         // Save the user to the database.
         await newUser.save();
@@ -205,6 +213,8 @@ app.post('/login', async (req, res) => {
         }
 
         // Check the password.
+        const passwordMatch = await bcrypt.compare(password, user.password);
+
         if (password === user.password) {
             res.status(200).json({ message: 'Login successful' });
         } else {
