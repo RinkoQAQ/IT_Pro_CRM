@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration</title>
+    <link rel="stylesheet" href="css/styles.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Lato-Regular', sans-serif;
+            background-color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -16,7 +17,7 @@
         }
 
         .registration-container {
-            background-color: rgba(255, 255, 255, 0.8); 
+            background-color: #fff;
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
@@ -37,13 +38,15 @@
         }
 
         .registration-label {
+            font-family: 'Lato-Regular', sans-serif;
             text-align: left;
             font-weight: bold;
-            margin-left: 4px;
+            margin-left: 2px;
             display: block; 
         }
 
         .registration-button {
+            font-family: 'Lato-Regular', sans-serif;
             padding: 10px 20px;
             background-color: rgb(0, 123, 255);
             color: #fff;
@@ -55,7 +58,8 @@
         }
 
         .registration-cancel {
-            color: blue;           
+            font-family: 'Lato-Regular', sans-serif;
+            color: rgb(0, 123, 255);         
             text-decoration: underline; 
 }
     </style>
@@ -96,11 +100,14 @@
                 return; // Prevent registration if username is too long
             }
 
-        // Check password length
+         // Check password length
             if (password.length > 20) {
                 alert("Password cannot exceed 20 characters.");
                 return; // Prevent registration if password is too long
             }
+
+
+    
 
             // Add your registration logic here
             if (password !== confirmPassword) {
