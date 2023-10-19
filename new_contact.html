@@ -122,44 +122,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="frontend/js/script.js"></script>
-    <script>
-        (function() {
-            'use strict';
-            window.addEventListener('load', function() {
-                var forms = document.getElementsByClassName('needs-validation');
-                var validation = Array.prototype.filter.call(forms, function(form) {
-                    form.addEventListener('submit', function(event) {
-                        if (form.checkValidity() === false) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        form.classList.add('was-validated');
-                    }, false);
-                });
-            }, false);
-        })();
-
-        // New script for adding group
-        document.getElementById('addGroupBtn').addEventListener('click', function() {
-            document.getElementById('newGroupInput').style.display = 'block';
-        });
-
-        document.getElementById('saveGroupBtn').addEventListener('click', function() {
-            const newGroupName = document.getElementById('newGroupName').value.trim();
-            if (newGroupName) {
-                // Add the new group to the select element
-                const option = new Option(newGroupName, newGroupName);
-                document.getElementById('groupField').add(option);
-                
-                // Reset and hide the new group input
-                document.getElementById('newGroupName').value = '';
-                document.getElementById('newGroupInput').style.display = 'none';
-            } else {
-                alert('Please enter a valid group name.');
-            }
-        });
-    </script>
 </body>
 
 </html>
-<!-- check Lin -->
