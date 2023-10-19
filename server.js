@@ -13,6 +13,13 @@ const cors = require('cors');
 // Import bcrypt library for password encryption
 const bcrypt = require('bcryptjs');
 
+// Import multer for profile picture manipulation
+const multer = require('multer');
+
+
+//--------------------------------------------------------------------------------------------------------------
+
+
 // Create an Express application.
 const app = express();
 
@@ -34,6 +41,10 @@ mongoose.connect(connectionString, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
+
+
+//--------------------------------------MONGODB DATA SCHEMA---------------------------------------------------- 
+
 
 // Define a user data model.
 const userSchema = new mongoose.Schema({
@@ -66,6 +77,9 @@ const customerSchema = new mongoose.Schema({
 // Create Customer and User data table models using the defined schemas.
 const Customer = mongoose.model('Customer', customerSchema);
 const User = mongoose.model('User', userSchema);
+
+
+//------------------------------APIS------------------------------------------------------------------------
 
 // POST(/customers) -> Insert data
 app.post('/customers', async (req, res) => {
@@ -223,6 +237,59 @@ app.post('/login', async (req, res) => {
     } catch (error) {
         // If an error occurs, return an error response.
         res.status(500).json({ error: error.message });
+    }
+});
+
+//profile picture editing
+// 设置存储引擎和文件名
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        // 指定上传文件的目录
+        cb(null, './uploads'); // 创建一个名为 "uploads" 的文件夹（确保它存在）
+    },
+    filename: function (req, file, cb) {
+        // 指定上传文件的文件名
+        cb(null, Date.now() + '-' + file.originalname);
+    }
+});
+
+const upload = multer({ storage: storage });
+
+// POST(/customers/:id/profile-picture) -> 上传客户的个人资料图片
+app.post('/customers/:id/profile-picture', upload.single('profilePicture'), async (req, res) => {
+    try {
+        const customer = await Customer.findById(req.params.id);
+        if (!customer) {
+            return res.status(404).send({ message: 'Customer not found' });
+        }
+        
+        // 更新客户的个人资料图片字段
+        customer.profilePicture = req.file.filename; // 使用文件上传中间件生成的文件名
+        
+        await customer.save();
+        res.status(201).send(customer);
+    } catch (error) {
+        // 如果出现错误，返回错误响应
+        res.status(500).send(error);
+    }
+});
+
+// POST(/users/:id/profile-picture) -> 上传用户的个人资料图片
+app.post('/users/:id/profile-picture', upload.single('profilePicture'), async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            return res.status(404).send({ message: 'User not found' });
+        }
+        
+        // 更新用户的个人资料图片字段
+        user.profilePicture = req.file.filename; // 使用文件上传中间件生成的文件名
+        
+        await user.save();
+        res.status(201).send(user);
+    } catch (error) {
+        // 如果出现错误，返回错误响应
+        res.status(500).send(error);
     }
 });
 
