@@ -17,7 +17,8 @@ const app = express();
 app.use(cors());
 
 // Use bodyParser to parse JSON data from incoming requests.
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '50mb' }));
+
 
 // Set the port that our application will listen on.
 const port = process.env.PORT || 3000;
