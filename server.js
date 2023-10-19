@@ -11,7 +11,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 // Import bcrypt library for password encryption
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 // Create an Express application.
 const app = express();
