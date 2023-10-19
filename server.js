@@ -1,52 +1,42 @@
-// Import the express library, which is a framework for building web applications.
 const express = require('express');
-
-// Import the body-parser library to parse data from the frontend.
 const bodyParser = require('body-parser');
-
-// Import the mongoose library for connecting and working with MongoDB.
 const mongoose = require('mongoose');
-
-// Import CORS for handling cross-origin requests.
 const cors = require('cors');
-
-// Import bcrypt library for password encryption
 const bcrypt = require('bcryptjs');
-
-// Import multer for profile picture manipulation
 const multer = require('multer');
+const GridFsStorage = require('multer-gridfs-storage').GridFsStorage;
+const Grid = require('gridfs-stream');
 
-
-//--------------------------------------------------------------------------------------------------------------
-
-
-// Create an Express application.
 const app = express();
 
-// Enable CORS middleware to handle cross-origin requests.
 app.use(cors());
+app.use(bodyParser.json());
 
-// Use bodyParser to parse JSON data from incoming requests.
-app.use(bodyParser.json({ limit: '50mb' }));
-
-
-// Set the port that our application will listen on.
 const port = process.env.PORT || 3000;
-
-// Modify the connection string to point to your MongoDB cluster.
 const connectionString = "mongodb+srv://js:123@personalcrm.w5i2deu.mongodb.net/?retryWrites=true&w=majority";
 
-// Connect to MongoDB using Mongoose.
 mongoose.connect(connectionString, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
 
+let gfs;
+mongoose.connection.once('open', function () {
+    gfs = Grid(mongoose.connection.db, mongoose.mongo);
+});
 
-//--------------------------------------MONGODB DATA SCHEMA---------------------------------------------------- 
+const storage = new GridFsStorage({
+    url: connectionString,
+    file: (req, file) => {
+        return {
+            bucketName: 'profilePictures',
+            filename: file.originalname
+        };
+    },
+});
 
+const upload = multer({ storage });
 
-// Define a user data model.
 const userSchema = new mongoose.Schema({
     username: String,
     password: String,
@@ -54,13 +44,11 @@ const userSchema = new mongoose.Schema({
     email: String
 });
 
-// Define an event data model for customer events.
 const eventSchema = new mongoose.Schema({
     time: Date,
     content: String
 });
 
-// Define a customer data model.
 const customerSchema = new mongoose.Schema({
     name: String,
     email: String,
@@ -74,12 +62,8 @@ const customerSchema = new mongoose.Schema({
     events: [eventSchema]
 });
 
-// Create Customer and User data table models using the defined schemas.
 const Customer = mongoose.model('Customer', customerSchema);
 const User = mongoose.model('User', userSchema);
-
-
-//------------------------------APIS------------------------------------------------------------------------
 
 // POST(/customers) -> Insert data
 app.post('/customers', async (req, res) => {
@@ -198,10 +182,10 @@ app.post('/register', async (req, res) => {
         if (existingUser) {
             return res.status(400).json({ message: 'Username already exists' });
         }
-
-        // Use bcrypt to generate hashed password
-        const hashedPassword = await bcrypt.hash(password, 10); // 10 is a hash round number
         
+        // Use 'bcrypt' library to encrypt passwords  
+        const hashedPassword = await bcrypt.hash(password, 10);
+
         const newUser = new User({ username, password: hashedPassword });
 
         // Save the user to the database.
@@ -227,8 +211,6 @@ app.post('/login', async (req, res) => {
         }
 
         // Check the password.
-        const passwordMatch = await bcrypt.compare(password, user.password);
-
         if (password === user.password) {
             res.status(200).json({ message: 'Login successful' });
         } else {
@@ -237,59 +219,6 @@ app.post('/login', async (req, res) => {
     } catch (error) {
         // If an error occurs, return an error response.
         res.status(500).json({ error: error.message });
-    }
-});
-
-//profile picture editing
-// 设置存储引擎和文件名
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        // 指定上传文件的目录
-        cb(null, './uploads'); // 创建一个名为 "uploads" 的文件夹（确保它存在）
-    },
-    filename: function (req, file, cb) {
-        // 指定上传文件的文件名
-        cb(null, Date.now() + '-' + file.originalname);
-    }
-});
-
-const upload = multer({ storage: storage });
-
-// POST(/customers/:id/profile-picture) -> 上传客户的个人资料图片
-app.post('/customers/:id/profile-picture', upload.single('profilePicture'), async (req, res) => {
-    try {
-        const customer = await Customer.findById(req.params.id);
-        if (!customer) {
-            return res.status(404).send({ message: 'Customer not found' });
-        }
-        
-        // 更新客户的个人资料图片字段
-        customer.profilePicture = req.file.filename; // 使用文件上传中间件生成的文件名
-        
-        await customer.save();
-        res.status(201).send(customer);
-    } catch (error) {
-        // 如果出现错误，返回错误响应
-        res.status(500).send(error);
-    }
-});
-
-// POST(/users/:id/profile-picture) -> 上传用户的个人资料图片
-app.post('/users/:id/profile-picture', upload.single('profilePicture'), async (req, res) => {
-    try {
-        const user = await User.findById(req.params.id);
-        if (!user) {
-            return res.status(404).send({ message: 'User not found' });
-        }
-        
-        // 更新用户的个人资料图片字段
-        user.profilePicture = req.file.filename; // 使用文件上传中间件生成的文件名
-        
-        await user.save();
-        res.status(201).send(user);
-    } catch (error) {
-        // 如果出现错误，返回错误响应
-        res.status(500).send(error);
     }
 });
 
@@ -337,6 +266,85 @@ app.get('/events', async (req, res) => {
         res.status(200).send(allEvents);
     } catch (error) {
         // If an error occurs, return an error response.
+        res.status(500).send(error);
+    }
+});
+
+// User Profile Picture Upload
+app.post('/user/:id/upload', upload.single('profilePicture'), async (req, res) => {
+    try {
+        const user = await User.findByIdAndUpdate(
+            req.params.id,
+            { profilePicture: req.file.filename },
+            { new: true }
+        );
+        if (!user) {
+            return res.status(404).send();
+        }
+        res.status(200).send(user);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
+// Customer Profile Picture Upload
+app.post('/customers/:id/upload', upload.single('profilePicture'), async (req, res) => {
+    try {
+        const customer = await Customer.findByIdAndUpdate(
+            req.params.id,
+            { profilePicture: req.file.filename },
+            { new: true }
+        );
+        if (!customer) {
+            return res.status(404).send();
+        }
+        res.status(200).send(customer);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
+// Get Profile Picture
+app.get('/image/:filename', (req, res) => {
+    gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
+        if (!file || file.length === 0) {
+            return res.status(404).json({ err: 'No file exists' });
+        }
+        const readstream = gfs.createReadStream(file.filename);
+        readstream.pipe(res);
+    });
+});
+
+// User Profile Picture Deletion
+app.delete('/user/:id/delete-picture', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            return res.status(404).send();
+        }
+        const filename = user.profilePicture;
+        await gfs.remove({ filename, root: 'profilePictures' });
+        user.profilePicture = "";
+        await user.save();
+        res.status(200).send(user);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
+// Customer Profile Picture Deletion
+app.delete('/customers/:id/delete-picture', async (req, res) => {
+    try {
+        const customer = await Customer.findById(req.params.id);
+        if (!customer) {
+            return res.status(404).send();
+        }
+        const filename = customer.profilePicture;
+        await gfs.remove({ filename, root: 'profilePictures' });
+        customer.profilePicture = "";
+        await customer.save();
+        res.status(200).send(customer);
+    } catch (error) {
         res.status(500).send(error);
     }
 });
