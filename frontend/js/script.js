@@ -23,15 +23,38 @@ $(document).ready(function() {
                 $('#phoneField').val(customer.phone || '');
                 $('#emailField').val(customer.email || '');
                 $('#notesField').val(customer.notes || '');
-                $('#groupField').val(customer.group || '');
+                // $('#groupField').val(customer.group || '');
                 $('#birthdayField').val(customer.birthday || '');
                 $('#companyField').val(customer.company || '');
+                
+                // Handle the group field
+                const groupField = $('#groupField');
+                if (customer.group) {
+                    // Check if the group exists in the options
+                    let groupExists = false;
+                    groupField.find('option').each(function() {
+                        if (this.value == customer.group) {
+                            groupExists = true;
+                            return false; // exit loop
+                        }
+                    });
+
+                    // If the group doesn't exist, add it
+                    if (!groupExists) {
+                        const option = new Option(customer.group, customer.group);
+                        groupField.append(option);
+                    }
+
+                    // Set the group field value
+                    groupField.val(customer.group);
+                }
 
                 // // Handle image preview
                 // if (customer.profilePicture) {
                 //     // Display the existing image
                 //     $('#previewImage').attr('src', customer.profilePicture);
                 // }
+
             })
             .catch(error => {
                 console.error("Error fetching customer data:", error);

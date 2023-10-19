@@ -100,6 +100,11 @@
                             <option value="Friends">Friends</option>
                             <option value="Work">Work</option>
                         </select>
+                        <button type="button" class="btn btn-link" id="addGroupBtn">+ Add New Group</button> <!-- 注意 type="button" -->
+                        <div id="newGroupInput" style="display: none;">
+                            <input type="text" id="newGroupName" placeholder="Enter new group name" class="form-control mt-2">
+                            <button type="button" class="btn btn-primary mt-2" id="saveGroupBtn">Save</button> <!-- 注意 type="button" -->
+                        </div>
                     </div>
 
                     <!-- Additional Notes Field -->
@@ -133,6 +138,26 @@
                 });
             }, false);
         })();
+
+        // New script for adding group
+        document.getElementById('addGroupBtn').addEventListener('click', function() {
+            document.getElementById('newGroupInput').style.display = 'block';
+        });
+
+        document.getElementById('saveGroupBtn').addEventListener('click', function() {
+            const newGroupName = document.getElementById('newGroupName').value.trim();
+            if (newGroupName) {
+                // Add the new group to the select element
+                const option = new Option(newGroupName, newGroupName);
+                document.getElementById('groupField').add(option);
+                
+                // Reset and hide the new group input
+                document.getElementById('newGroupName').value = '';
+                document.getElementById('newGroupInput').style.display = 'none';
+            } else {
+                alert('Please enter a valid group name.');
+            }
+        });
     </script>
 </body>
 
