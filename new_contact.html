@@ -100,6 +100,11 @@
                             <option value="Friends">Friends</option>
                             <option value="Work">Work</option>
                         </select>
+                        <button type="button" class="btn btn-link" id="addGroupBtn">+ Add New Group</button> <!-- 注意 type="button" -->
+                        <div id="newGroupInput" style="display: none;">
+                            <input type="text" id="newGroupName" placeholder="Enter new group name" class="form-control mt-2">
+                            <button type="button" class="btn btn-primary mt-2" id="saveGroupBtn">Save</button> <!-- 注意 type="button" -->
+                        </div>
                     </div>
 
                     <!-- Additional Notes Field -->
@@ -117,24 +122,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="frontend/js/script.js"></script>
-    <script>
-        (function() {
-            'use strict';
-            window.addEventListener('load', function() {
-                var forms = document.getElementsByClassName('needs-validation');
-                var validation = Array.prototype.filter.call(forms, function(form) {
-                    form.addEventListener('submit', function(event) {
-                        if (form.checkValidity() === false) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        form.classList.add('was-validated');
-                    }, false);
-                });
-            }, false);
-        })();
-    </script>
 </body>
 
 </html>
-<!-- check Lin -->

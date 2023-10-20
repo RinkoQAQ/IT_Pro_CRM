@@ -23,20 +23,58 @@ $(document).ready(function() {
                 $('#phoneField').val(customer.phone || '');
                 $('#emailField').val(customer.email || '');
                 $('#notesField').val(customer.notes || '');
-                $('#groupField').val(customer.group || '');
+                // $('#groupField').val(customer.group || '');
                 $('#birthdayField').val(customer.birthday || '');
                 $('#companyField').val(customer.company || '');
+                
+                // Handle the group field
+                const groupField = $('#groupField');
+                if (customer.group) {
+                    // Check if the group exists in the options
+                    let groupExists = false;
+                    groupField.find('option').each(function() {
+                        if (this.value == customer.group) {
+                            groupExists = true;
+                            return false; // exit loop
+                        }
+                    });
+
+                    // If the group doesn't exist, add it
+                    if (!groupExists) {
+                        const option = new Option(customer.group, customer.group);
+                        groupField.append(option);
+                    }
+
+                    // Set the group field value
+                    groupField.val(customer.group);
+                }
 
                 // // Handle image preview
                 // if (customer.profilePicture) {
                 //     // Display the existing image
                 //     $('#previewImage').attr('src', customer.profilePicture);
                 // }
+
             })
             .catch(error => {
                 console.error("Error fetching customer data:", error);
             });
     }
+
+    let profilePicBase64 = "test";
+
+    document.getElementById('profilePictureField').addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = function() {
+                // profilePicBase64 = reader.result.replace('data:', '').replace(/^.+,/, ''); // Update the global variable with the base64 string
+                // console.log(profilePicBase64);
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
 
     // Form submission event listener
     $('form').on('submit', function(event) {
@@ -52,6 +90,7 @@ $(document).ready(function() {
             birthday: $('#birthdayField').val(),
             company: $('#companyField').val(),
             // profilePicture: $('#profilePictureField').val() // Needs another method for handling file upload
+            profilePicture: profilePicBase64 || undefined
         };
 
         if (customerId) {
@@ -97,4 +136,43 @@ $(document).ready(function() {
             window.location.href = "contacts-list.html";
         });
     });
+
+
+    (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+            var forms = document.getElementsByClassName('needs-validation');
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+
+    // New script for adding group
+    document.getElementById('addGroupBtn').addEventListener('click', function() {
+        document.getElementById('newGroupInput').style.display = 'block';
+    });
+
+    document.getElementById('saveGroupBtn').addEventListener('click', function() {
+        const newGroupName = document.getElementById('newGroupName').value.trim();
+        if (newGroupName) {
+            // Add the new group to the select element
+            const option = new Option(newGroupName, newGroupName);
+            document.getElementById('groupField').add(option);
+            
+            // Reset and hide the new group input
+            document.getElementById('newGroupName').value = '';
+            document.getElementById('newGroupInput').style.display = 'none';
+        } else {
+            alert('Please enter a valid group name.');
+        }
+    });
+
+
 });

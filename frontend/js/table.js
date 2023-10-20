@@ -55,20 +55,25 @@ var addressBook = (function() {
         const row = event.target.closest('tr');  // Get the row containing the clicked button
         const customerId = row.dataset.id;
 
-        fetch(`${API_ENDPOINT}/${customerId}`, {
-            method: 'DELETE',
-        })
-        .then(response => {
-            if (response.ok) {
-                alert('Customer deleted successfully');
-                renderCustomers();  // Re-render the table after deletion
-            } else {
-                alert('Error deleting customer');
-            }
-        })
-        .catch(error => {
-            console.error('Error deleting customer:', error);
-        });
+        // Delete confirmation mechanism
+        const confirmation = window.confirm('Are you sure you want to delete this contact?');
+        if (confirmation) {
+            fetch(`${API_ENDPOINT}/${customerId}`, {
+                method: 'DELETE',
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Customer deleted successfully');
+                    renderCustomers();  // Re-render the table after deletion
+                } else {
+                    alert('Error deleting customer');
+                }
+            })
+            .catch(error => {
+                console.error('Error deleting customer:', error);
+            });
+        }
+
     }
 
     // Function to edit a customer
@@ -91,3 +96,4 @@ var addressBook = (function() {
     // Call renderCustomers when the page loads
     window.onload = renderCustomers;
 })();
+
